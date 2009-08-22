@@ -80,7 +80,7 @@ src_compile() {
 
 src_install() {
 	emake DESTDIR="${D}" install || die "emake install failed."
-	dodoc doc/AUTHORS doc/COPYING doc/NEWS doc/README* doc/FAQ doc/HACKING doc/MAINTAINERS doc/TODO
+	dodoc AUTHORS doc/COPYING doc/NEWS doc/README* doc/FAQ doc/HACKING doc/MAINTAINERS doc/TODO
 
 	# Install cons.saver setuid to actually work
 	# for more actual info see mc/src/cons.saver.c
