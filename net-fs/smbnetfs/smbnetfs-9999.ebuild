@@ -7,6 +7,7 @@ inherit eutils autotools git
 DESCRIPTION="SMBNetFS is a Linux/FreeBSD filesystem that allow you to use samba/microsoft network in the same manner as the network neighborhood in Microsoft Windows."
 HOMEPAGE="http://sourceforge.net/projects/smbnetfs"
 EGIT_REPO_URI="git://smbnetfs.git.sourceforge.net/gitroot/smbnetfs/smbnetfs"
+#SRC_URI="mirror://sourceforge/smbnetfs/${P}.tar.bz2"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -29,7 +30,7 @@ src_unpack() {
 
 src_install() {
 	make install DESTDIR=${D} || die "make install failed"
-	dodoc COPYING AUTHORS ChangeLog README  smbnetfs.conf INSTALL RUSSIAN.FAQ
+	dodoc COPYING AUTHORS ChangeLog README INSTALL RUSSIAN.FAQ
 }
 
 pkg_postinst() {
