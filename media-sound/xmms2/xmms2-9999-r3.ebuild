@@ -52,6 +52,7 @@ samba
 sid
 speex
 vorbis
+vocoder
 xspf
 xml
 "
@@ -92,6 +93,7 @@ DEPEND="!clientonly? (
 			media-libs/resid )
 		speex? ( media-libs/speex )
 		vorbis? ( media-libs/libvorbis )
+		vocoder? ( sci-libs/fftw media-libs/libsamplerate )
 		xml? ( dev-libs/libxml2 )
 		xspf? ( dev-libs/libxml2 )
 	)
@@ -145,6 +147,7 @@ src_compile() {
 		use sid || excl_pls="${excl_pls},sid"
 		use speex || excl_pls="${excl_pls},speex"
 		use vorbis || excl_pls="${excl_pls},vorbis"
+		use vocoder || excl_pls="${excl_pls},vocoder"
 		use mms || excl_pls="${excl_pls},mms"
 		use eq || excl_pls="${excl_pls},equalizer"
 		use xspf || excl_pls="${excl_pls},xspf"
