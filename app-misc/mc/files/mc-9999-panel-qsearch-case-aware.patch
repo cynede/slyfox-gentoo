@@ -1,0 +1,13 @@
+diff --git a/src/screen.c b/src/screen.c
+index e158312..00bd4cd 100644
+--- a/src/screen.c
++++ b/src/screen.c
+@@ -2403,7 +2403,7 @@ do_search (WPanel * panel, int c_code)
+     search = mc_search_new (esc_str, -1);
+     search->search_type = MC_SEARCH_T_GLOB;
+     search->is_entire_line = TRUE;
+-    search->is_case_sentitive = 0;
++    search->is_case_sentitive = TRUE;
+ 
+     sel = panel->selected;
+     for (i = panel->selected; !wrapped || i != panel->selected; i++)
