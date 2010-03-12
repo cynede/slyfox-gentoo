@@ -17,8 +17,7 @@ IUSE=""
 RDEPEND="media-libs/libsdl
 	media-libs/sdl-net"
 DEPEND="${RDEPEND}
-	app-arch/unzip
-	dev-util/mercurial"
+	app-arch/unzip"
 
 S=${WORKDIR}/hg
 
