@@ -74,5 +74,5 @@ src_compile() {
 
 src_install() {
 	make DESTDIR="${D}" install || die "Install failed!"
-	dodoc ACKNOWLEDGEMENTS AUTHORS FAQ.txt NEWS README*
+	dodoc AUTHORS COPYING NEWS README*
 }
