@@ -4,7 +4,7 @@
 
 EAPI=2
 
-inherit base autotools flag-o-matic git
+inherit autotools flag-o-matic git
 
 DESCRIPTION="GNU Midnight Commander is a text mode file manager."
 HOMEPAGE="http://midnight-commander.org/"
@@ -41,7 +41,6 @@ src_unpack() {
 }
 
 src_prepare() {
-	epatch "${FILESDIR}/mc-9999-panel-qsearch-case-aware.patch"
 	cd "${S}"
 	./autogen.sh
 }
