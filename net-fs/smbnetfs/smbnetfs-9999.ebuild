@@ -15,7 +15,7 @@ KEYWORDS=""
 IUSE=""
 
 RDEPEND=">=sys-fs/fuse-2.3
-	>=net-fs/samba-libs-3.2[smbclient]"
+	>=net-fs/samba-3.2[smbclient]"
 
 DEPEND="${RDEPEND}
 	virtual/libc
