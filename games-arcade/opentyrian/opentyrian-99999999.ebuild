@@ -7,7 +7,7 @@ inherit eutils games mercurial
 DESCRIPTION="Open-source port of the DOS game Tyrian, vertical scrolling shooter"
 HOMEPAGE="http://code.google.com/p/opentyrian/"
 SRC_URI="http://darklomax.org/tyrian/tyrian21.zip"
-EHG_REPO_URI=https://opentyrian.googlecode.com/hg/
+EHG_REPO_URI=http://opentyrian.googlecode.com/hg/
 
 LICENSE="GPL-2"
 SLOT="0"
