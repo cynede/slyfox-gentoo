@@ -1,10 +1,11 @@
-# Copyright 1999-2006 Gentoo Foundation
+# Copyright 1999-2010 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
+# $Header: $
 
 EAPI=2
 inherit eutils autotools git
 
-DESCRIPTION="SMBNetFS is a Linux/FreeBSD filesystem that allow you to use samba/microsoft network in the same manner as the network neighborhood in Microsoft Windows."
+DESCRIPTION="SMBNetFS is a Linux/FreeBSD FUSE filesystem that allow you to use samba/microsoft network."
 HOMEPAGE="http://sourceforge.net/projects/smbnetfs"
 EGIT_REPO_URI="git://smbnetfs.git.sourceforge.net/gitroot/smbnetfs/smbnetfs"
 #SRC_URI="mirror://sourceforge/smbnetfs/${P}.tar.bz2"
@@ -18,25 +19,24 @@ RDEPEND=">=sys-fs/fuse-2.3
 	>=net-fs/samba-3.2[smbclient]"
 
 DEPEND="${RDEPEND}
-	virtual/libc
 	sys-devel/libtool
 	sys-devel/make"
 
 src_unpack() {
-	git_src_unpack "${A}"
+	git_src_unpack ${A}
 	cd "${S}"
 	./autogen.sh || die "./autogen.sh failed"
 }
 
 src_install() {
-	make install DESTDIR=${D} || die "make install failed"
-	dodoc COPYING AUTHORS ChangeLog README INSTALL RUSSIAN.FAQ
+	emake install DESTDIR="${D}" || die "make install failed"
+	dodoc AUTHORS ChangeLog README INSTALL RUSSIAN.FAQ
 }
 
 pkg_postinst() {
-	einfo ""
-	einfo "For quick usage, exec:"
-	einfo "'modprobe fuse'"
-	einfo "'smbnetfs -oallow_other /mnt/samba'"
-	einfo ""
+	elog
+	elog "For quick usage, exec:"
+	elog "'modprobe fuse'"
+	elog "'smbnetfs -oallow_other /mnt/samba'"
+	elog
 }
