@@ -15,8 +15,8 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
-IUSE="aac +alsa ao asf avahi cdda curl cxx ffmpeg flac gvfs ices
-jack mlib-update mms +mp3 mp4 modplug mpg123 musepack ofa oss
+IUSE="aac airplay +alsa ao asf avahi cdda curl cxx ffmpeg flac gvfs ices
+jack mac mlib-update mms +mp3 mp4 modplug mpg123 musepack ofa oss
 perl phonehome pulseaudio python rss ruby
 samba +server sid speex +vorbis vocoder wavpack xml"
 
@@ -24,6 +24,7 @@ RDEPEND="server? (
 		>=dev-db/sqlite-3.3.4
 
 		aac? ( >=media-libs/faad2-2.0 )
+		airplay? ( dev-libs/openssl )
 		alsa? ( media-libs/alsa-lib )
 		ao? ( media-libs/libao )
 		avahi? ( net-dns/avahi )
@@ -37,6 +38,7 @@ RDEPEND="server? (
 			media-libs/libshout
 			media-libs/libvorbis )
 		jack? ( >=media-sound/jack-audio-connection-kit-0.101.1 )
+		mac? ( media-sound/mac )
 		mms? ( media-video/ffmpeg
 			>=media-libs/libmms-0.3 )
 		modplug? ( media-libs/libmodplug )
@@ -143,12 +145,14 @@ src_configure() {
 
 		local plugin_map=(	# USE		# sorted xmms2 plugin flag (same, as USE if empty)
 					"		alsa"
+					"		airplay"
 					"		ao"
 					"ffmpeg		apefile"
 					"ffmpeg		avcodec"
 					"		asf"
 					"ENABLED	asx"
 					"		cdda"
+					"DISABLED	coreaudio" # MacOS only?
 					"		curl"
 					"ENABLED	cue"
 					"avahi		daap"
@@ -159,7 +163,7 @@ src_configure() {
 					"		flac"
 					"ffmpeg		flv"
 					"ffmpeg		tta"
-					"ENABLED	flv"
+					"DISABLED	gme" # not in tree
 					"		gvfs"
 					"ENABLED	html"
 					"		ices"
@@ -168,6 +172,7 @@ src_configure() {
 					"		jack"
 					"ENABLED	karaoke"
 					"ENABLED	m3u"
+					"		mac"
 					"		mms"
 					"mp3		mad"
 					"		mp4"
