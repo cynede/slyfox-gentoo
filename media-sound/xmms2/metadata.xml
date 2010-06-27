@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<herd>no-herd</herd>
+	<maintainer>
+		<email>slyfox@gentoo.org</email>
+		<name>Sergei Trofimovich</name>
+		<description>Primary Maintainer</description>
+	</maintainer>
+	<longdescription>
+	</longdescription>
+	<use>
+		<flag name="asf">Support for Monkey's Audio (APE) format</flag>
+		<flag name="gvfs">Transport for glibs virtual filesystem</flag>
+		<flag name="ices">Icecast source output plugin</flag>
+		<flag name="mms">Support for Microsoft Media Server (MMS) streams via libmms</flag>
+		<flag name="mpg123">Support for libmpg123 decoder for MPEG 1.0/2.0/2.5 layer 1/2/3</flag>
+		<flag name="ofa">Support for Open Fingerprint Architecture (OFA)</flag>
+		<flag name="phonehome">This client sends anonymous usage-statistics to the xmms2</flag>
+		<flag name="server">Build xmms2 player daemon (otherwise only clients are built)</flag>
+		<flag name="sid">Support for C64 SID</flag>
+		<flag name="vocoder">Phase vocoder effect plugin</flag>
+		<flag name="mlib-update">Enable building of xmms2-mlib-updater client</flag>
+	</use>
+</pkgmetadata>

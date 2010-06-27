@@ -15,16 +15,10 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
-# TODO: split plugins, options and sort em properly
-IUSE="aac +alsa ao asx avahi cdda curl cxx daap diskwrite
-equalizer ffmpeg flac gvfs ices jack
-mlib-update mms +mp3 mp4 modplug mpg123 musepack ofa oss
+IUSE="aac +alsa ao asf avahi cdda curl cxx ffmpeg flac gvfs ices
+jack mlib-update mms +mp3 mp4 modplug mpg123 musepack ofa oss
 perl phonehome pulseaudio python rss ruby
-samba +server sid speex +vorbis vocoder wavpack
-xspf xml"
-
-# perpetual TODO:
-# FIXME: from 'src/plugins/*/wscript'
+samba +server sid speex +vorbis vocoder wavpack xml"
 
 RDEPEND="server? (
 		>=dev-db/sqlite-3.3.4
@@ -90,12 +84,21 @@ xmms2_flag() {
 
 	local UWORD=${2:-$1}
 
-	if use "$1"; then
-		echo ",${UWORD}"
-	else
-		: # nothing is generated
-	fi
-
+	case "$1" in
+		ENABLED)
+			echo ",${UWORD}"
+			;;
+		DISABLED)
+			: # nothing is generated
+			;;
+		*)
+			if use "$1"; then
+				echo ",${UWORD}"
+			else
+				: # nothing is generated
+			fi
+			;;
+	esac
 	return 0
 }
 
@@ -104,7 +107,7 @@ src_configure() {
 	local waf_params="--without-ldconfig
 			--prefix=/usr \
 			--libdir=/usr/$(get_libdir) \
-			--destdir=${D} \
+			--destdir="${D}" \
 			${CTARGET:+--with-target-platform=${CTARGET}} \
 			--mandir=/usr/share/man \
 			--infodir=/usr/share/info \
@@ -118,98 +121,109 @@ src_configure() {
 		waf_params+=" --without-xmms2d"
 	else
 		# some fun static mappings:
-		local always_enabled_optionals=""
-		local option_map=(	# USE(sort)	# xmms2 option flag (same, as USE if empty)
-					"avahi"
-					"cxx		xmmsclient++,xmmsclient++-glib"
-					#"ecore		#off, xmmsclient-ecore" (not in tree)
-					"mlib-update	medialib-updater"
-					"phonehome	et"
-					"python"
-					"ruby"
+		local option_map=(	# USE		# xmms2 option flag (sort, same, as USE if empty)
+					"avahi			avahi"
+					"ENABLED		cli"
+					"avahi			dns_sd"
+					"phonehome		et"
+					"ENABLED		launcher"
+					"mlib-update		medialib-updater"
+					"ENABLED		nycli"
+					"			perl"
+					"ENABLED		pixmaps"
+					"			python"
+					"			ruby"
+					"DISABLED		tests"
+					"DISABLED		vistest"
+					"cxx			xmmsclient++"
+					"cxx			xmmsclient++-glib"
+					"DISABLED		xmmsclient-cf"
+					"DISABLED		xmmsclient-ecore" # not in tree
 				)
 
-		local always_enabled_plugins=",cue,file,html,icymetaint,id3v2,karaoke,m3u,normalize,null,nulstripper,wave"
-		always_enabled_plugins+=",pls,replaygain"
+		local always_enabled_plugins=",asx,cue,diskwrite,equalizer,file,html"
+		always_enabled_plugins+=",icymetaint,id3v2,karaoke,m3u,normalize,null,nulstripper"
+		always_enabled_plugins+=",pls,replaygain,wave,xml"
 
-		local plugin_map=(	# USE(sort)	# xmms2 plugin flag (same, as USE if empty)
+		local plugin_map=(	# USE		# xmms2 plugin flag (sort, same, as USE if empty)
 					"aac		faad"
-					"alsa"
-					"ao"
-					#"apefile"	#ffmpeg
-					#"avcodec"	#ffmpeg
-					"asx"
-					"cdda"
-					"curl"
-					#"cue"		#on
-					"daap"
-					"diskwrite"
-					"equalizer"
-					#"fil"		#on
-					"flac"
-					"ffmpeg		apefile,avcodec,flv,tta"
-					#"flv"		#ffmpeg
-					"gvfs"
-					#"html"		#on
-					"ices"
-					#"icymetaint"	#on
-					"jack"
-					#"karaoke"	#on
-					#"m3u"		#on
-					"mms"
+					"		alsa"
+					"		ao"
+					"ffmpeg		apefile"
+					"ffmpeg		avcodec"
+					"		asf"
+					"ENABLED	asx"
+					"		cdda"
+					"		curl"
+					"ENABLED	cue"
+					"avahi		daap"
+					"ENABLED	diskwrite"
+					"ENABLED	equalizer"
+					"ENABLED	file"
+					"		flac"
+					"ffmpeg		flv"
+					"ffmpeg		tta"
+					"ENABLED	flv"
+					"		gvfs"
+					"ENABLED	html"
+					"		ices"
+					"ENABLED	icymetaint"
+					"		jack"
+					"ENABLED	karaoke"
+					"ENABLED	m3u"
+					"		mms"
 					"mp3		mad"
-					"mp4"
-					"mpg123"
-					"modplug"
-					"musepack"
-					#"normalize"	#on
-					#"null"
-					#"nulstripper"	#on
-					"ofa"
-					"oss"
-					#"pls"		#on
+					"		mp4"
+					"		mpg123"
+					"		modplug"
+					"		musepack"
+					"DISABLED	nms" # not in tree
+					"ENABLED	normalize"
+					"ENABLED	null"
+					"ENABLED	nulstripper"
+					"		ofa"
+					"		oss"
+					"ENABLED	pls"
 					"pulseaudio	pulse"
-					"rss"
-					"samba"
-					#"sc68"		#off, not in tree
-					"sid"
-					"speex"
-					#"sun"		#off, {Open,Net}BSD only
-					#"tremor"	#off, not in tree
-					"vorbis"
-					"vocoder"
-					#"tta"		#ffmpeg
-					#"wave"		#on
-					#"waveout"	#off, windows only
-					"xspf"
+					"		rss"
+					"		samba"
+					"DISABLED	sc68" #not in tree
+					"		sid"
+					"		speex"
+					"DISABLED	sun" # {Open,Net}BSD only
+					"DISABLED	tremor" # not in tree
+					"		vorbis"
+					"		vocoder"
+					"ffmpeg		tta"
+					"ENABLED	wave"
+					"DISABLED	waveout" # windows only
+					"		wavpack"
+					"xml		xspf"
 				)
 
 		for option in "${option_map[@]}"; do
 			optionals+="$(xmms2_flag $option)"
 		done
-		optionals+=$always_enabled_optionals
 
 		for plugin in "${plugin_map[@]}"; do
 			plugins+="$(xmms2_flag $plugin)"
 		done
-		plugins+=$always_enabled_plugins
 	fi # ! server
 
 	# pass them explicitely even if empty as we try to avoid magic deps
 	waf_params+=" --with-optionals=${optionals:1}" # skip first ',' if yet
 	waf_params+=" --with-plugins=${plugins:1}"
 
-	echo ${S}/waf ${waf_params} configure
-	${S}/waf ${waf_params} configure || die "'waf configure' failed"
+	"${S}"/waf ${waf_params} configure || die "'waf configure' failed"
 }
 
 src_compile() {
-	${S}/waf build || die "waf build failed"
+	"${S}"/waf build || die "waf build failed"
 }
 
 src_install() {
-	${S}/waf --destdir=${D} install || die "'waf install' failed"
-	dodoc AUTHORS COPYING TODO README
+	"${S}"/waf --destdir="${D}" install || die "'waf install' failed"
+	dodoc AUTHORS TODO README
 
 	use python && python_need_rebuild
 }
