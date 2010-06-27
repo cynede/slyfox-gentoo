@@ -34,7 +34,7 @@ DEPEND="${RDEPEND}
 	dev-util/pkgconfig"
 
 # needed only for SCM source tree (autopoint uses it)
-DEPEND="${DEPEND} dev-util/cvs"
+DEPEND="${DEPEND} dev-vcs/cvs"
 
 src_unpack() {
 	git_src_unpack
