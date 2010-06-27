@@ -121,32 +121,27 @@ src_configure() {
 		waf_params+=" --without-xmms2d"
 	else
 		# some fun static mappings:
-		local option_map=(	# USE		# xmms2 option flag (sort, same, as USE if empty)
-					"avahi			avahi"
-					"ENABLED		cli"
-					"avahi			dns_sd"
-					"phonehome		et"
-					"ENABLED		launcher"
-					"mlib-update		medialib-updater"
-					"ENABLED		nycli"
-					"			perl"
-					"ENABLED		pixmaps"
-					"			python"
-					"			ruby"
-					"DISABLED		tests"
-					"DISABLED		vistest"
-					"cxx			xmmsclient++"
-					"cxx			xmmsclient++-glib"
-					"DISABLED		xmmsclient-cf"
-					"DISABLED		xmmsclient-ecore" # not in tree
+		local option_map=(	# USE		# sorted xmms2 option flag (same, as USE if empty)
+					"avahi		avahi"
+					"ENABLED	cli"
+					"avahi		dns_sd"
+					"phonehome	et"
+					"ENABLED	launcher"
+					"mlib-update	medialib-updater"
+					"ENABLED	nycli"
+					"		perl"
+					"ENABLED	pixmaps"
+					"		python"
+					"		ruby"
+					"DISABLED	tests"
+					"DISABLED	vistest"
+					"cxx		xmmsclient++"
+					"cxx		xmmsclient++-glib"
+					"DISABLED	xmmsclient-cf"
+					"DISABLED	xmmsclient-ecore" # not in tree
 				)
 
-		local always_enabled_plugins=",asx,cue,diskwrite,equalizer,file,html"
-		always_enabled_plugins+=",icymetaint,id3v2,karaoke,m3u,normalize,null,nulstripper"
-		always_enabled_plugins+=",pls,replaygain,wave,xml"
-
-		local plugin_map=(	# USE		# xmms2 plugin flag (sort, same, as USE if empty)
-					"aac		faad"
+		local plugin_map=(	# USE		# sorted xmms2 plugin flag (same, as USE if empty)
 					"		alsa"
 					"		ao"
 					"ffmpeg		apefile"
@@ -159,6 +154,7 @@ src_configure() {
 					"avahi		daap"
 					"ENABLED	diskwrite"
 					"ENABLED	equalizer"
+					"aac		faad"
 					"ENABLED	file"
 					"		flac"
 					"ffmpeg		flv"
@@ -168,6 +164,7 @@ src_configure() {
 					"ENABLED	html"
 					"		ices"
 					"ENABLED	icymetaint"
+					"ENABLED	id3v2"
 					"		jack"
 					"ENABLED	karaoke"
 					"ENABLED	m3u"
@@ -185,6 +182,7 @@ src_configure() {
 					"		oss"
 					"ENABLED	pls"
 					"pulseaudio	pulse"
+					"ENABLED	replaygain"
 					"		rss"
 					"		samba"
 					"DISABLED	sc68" #not in tree
@@ -199,6 +197,7 @@ src_configure() {
 					"DISABLED	waveout" # windows only
 					"		wavpack"
 					"xml		xspf"
+					"ENABLED	xml"
 				)
 
 		for option in "${option_map[@]}"; do
