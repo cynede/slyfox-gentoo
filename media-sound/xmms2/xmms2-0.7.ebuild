@@ -17,7 +17,7 @@ KEYWORDS="~amd64 ~x86"
 
 IUSE="aac airplay +alsa ao asf avahi cdda curl cxx ffmpeg flac gvfs ices
 jack mac mlib-update mms +mp3 mp4 modplug mpg123 musepack ofa oss
-perl phonehome pulseaudio python rss ruby
+perl phonehome pulseaudio python ruby
 samba +server sid speex +vorbis vocoder wavpack xml"
 
 RDEPEND="server? (
@@ -48,7 +48,6 @@ RDEPEND="server? (
 		musepack? ( media-sound/musepack-tools )
 		ofa? ( media-libs/libofa )
 		pulseaudio? ( media-sound/pulseaudio )
-		rss? ( dev-libs/libxml2 )
 		samba? ( net-fs/samba[smbclient] )
 		sid? ( media-sound/sidplay
 			media-libs/resid )
@@ -58,7 +57,6 @@ RDEPEND="server? (
 		vocoder? ( sci-libs/fftw media-libs/libsamplerate )
 		wavpack? ( media-sound/wavpack )
 		xml? ( dev-libs/libxml2 )
-		xspf? ( dev-libs/libxml2 )
 	)
 
 	>=dev-libs/glib-2.12.9
@@ -190,7 +188,7 @@ src_configure() {
 					"ENABLED	pls"
 					"pulseaudio	pulse"
 					"ENABLED	replaygain"
-					"		rss"
+					"xml		rss"
 					"		samba"
 					"DISABLED	sc68" #not in tree
 					"		sid"
