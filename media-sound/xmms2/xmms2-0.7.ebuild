@@ -106,7 +106,7 @@ xmms2_flag() {
 
 src_configure() {
 	# ./configure alike options.
-	local waf_params="--without-ldconfig
+	local waf_params="--without-ldconfig \
 			--prefix=/usr \
 			--libdir=/usr/$(get_libdir) \
 			--destdir="${D}" \
