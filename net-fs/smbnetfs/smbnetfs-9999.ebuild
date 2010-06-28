@@ -8,7 +8,7 @@ inherit eutils autotools git
 DESCRIPTION="FUSE filesystem for SMB shares"
 HOMEPAGE="http://sourceforge.net/projects/smbnetfs"
 EGIT_REPO_URI="git://smbnetfs.git.sourceforge.net/gitroot/smbnetfs/smbnetfs"
-#SRC_URI="mirror://sourceforge/smbnetfs/${P}.tar.bz2"
+#SRC_URI="mirror://sourceforge/${PN}/${P}.tar.bz2"
 
 LICENSE="GPL-2"
 SLOT="0"
