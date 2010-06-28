@@ -106,8 +106,7 @@ xmms2_flag() {
 
 src_configure() {
 	# ./configure alike options.
-	local waf_params="--without-ldconfig \
-			--prefix=/usr \
+	local waf_params="--prefix=/usr \
 			--libdir=/usr/$(get_libdir) \
 			--destdir="${D}" \
 			${CTARGET:+--with-target-platform=${CTARGET}} \
@@ -226,7 +225,7 @@ src_compile() {
 }
 
 src_install() {
-	"${S}"/waf --destdir="${D}" install || die "'waf install' failed"
+	"${S}"/waf --without-ldconfig --destdir="${D}" install || die "'waf install' failed"
 	dodoc AUTHORS TODO README
 
 	use python && python_need_rebuild
