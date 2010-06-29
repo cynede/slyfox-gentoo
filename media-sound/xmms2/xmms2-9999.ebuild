@@ -91,14 +91,13 @@ xmms2_flag() {
 			use $1 && echo ",${UWORD}"
 			;;
 	esac
-	return 0
 }
 
 src_configure() {
 	# ./configure alike options.
 	local waf_params="--prefix=/usr \
 			--libdir=/usr/$(get_libdir) \
-			${CHOST:+--with-target-platform=${CHOST}} \
+			--with-target-platform=${CHOST} \
 			--mandir=/usr/share/man \
 			--infodir=/usr/share/info \
 			--datadir=/usr/share \
@@ -193,10 +192,12 @@ src_configure() {
 					"ENABLED	xml"
 				)
 
+		local option
 		for option in "${option_map[@]}"; do
 			optionals+=$(xmms2_flag $option)
 		done
 
+		local plugin
 		for plugin in "${plugin_map[@]}"; do
 			plugins+=$(xmms2_flag $plugin)
 		done
