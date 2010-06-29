@@ -88,9 +88,7 @@ xmms2_flag() {
 		DISABLED)
 			;;
 		*)
-			if use $1; then
-				echo ",${UWORD}"
-			fi
+			use $1 && echo ",${UWORD}"
 			;;
 	esac
 	return 0
