@@ -77,26 +77,19 @@ S=${WORKDIR}/xmms2-devel
 # $2 - xmms2 option/plugin name (equals to $1 if not set)
 
 xmms2_flag() {
-	if [[ -z "$1" ]]; then
-		echo "!!! xmms2_flag() called without a parameter." >&2
-		echo "!!! xmms2_flag() <USEFLAG> [<xmms2_flagname>]" >&2
-		return 1
-	fi
+	[[ -z $1 ]] && eerror "!!! empty arg. usage: xmms2_flag <USEFLAG> [<xmms2_flagname>]."
 
 	local UWORD=${2:-$1}
 
-	case "$1" in
+	case $1 in
 		ENABLED)
 			echo ",${UWORD}"
 			;;
 		DISABLED)
-			: # nothing is generated
 			;;
 		*)
-			if use "$1"; then
+			if use $1; then
 				echo ",${UWORD}"
-			else
-				: # nothing is generated
 			fi
 			;;
 	esac
@@ -107,8 +100,7 @@ src_configure() {
 	# ./configure alike options.
 	local waf_params="--prefix=/usr \
 			--libdir=/usr/$(get_libdir) \
-			--destdir="${D}" \
-			${CTARGET:+--with-target-platform=${CTARGET}} \
+			${CHOST:+--with-target-platform=${CHOST}} \
 			--mandir=/usr/share/man \
 			--infodir=/usr/share/info \
 			--datadir=/usr/share \
@@ -204,11 +196,11 @@ src_configure() {
 				)
 
 		for option in "${option_map[@]}"; do
-			optionals+="$(xmms2_flag $option)"
+			optionals+=$(xmms2_flag $option)
 		done
 
 		for plugin in "${plugin_map[@]}"; do
-			plugins+="$(xmms2_flag $plugin)"
+			plugins+=$(xmms2_flag $plugin)
 		done
 	fi # ! server
 
@@ -216,15 +208,15 @@ src_configure() {
 	waf_params+=" --with-optionals=${optionals:1}" # skip first ',' if yet
 	waf_params+=" --with-plugins=${plugins:1}"
 
-	"${S}"/waf ${waf_params} configure || die "'waf configure' failed"
+	./waf ${waf_params} configure || die "'waf configure' failed"
 }
 
 src_compile() {
-	"${S}"/waf build || die "waf build failed"
+	./waf build || die "waf build failed"
 }
 
 src_install() {
-	"${S}"/waf --without-ldconfig --destdir="${D}" install || die "'waf install' failed"
+	./waf --without-ldconfig --destdir="${D}" install || die "'waf install' failed"
 	dodoc AUTHORS TODO README
 
 	use python && python_need_rebuild
@@ -242,9 +234,9 @@ pkg_postinst() {
 		einfo "Disable the phonehome useflag if you don't like that"
 	fi
 
-	use python && python_mod_optimize $(python_get_sitedir)/xmmsclient
+	use python && python_mod_optimize "$(python_get_sitedir)/xmmsclient"
 }
 
 pkg_postrm() {
-	use python && python_mod_cleanup $(python_get_sitedir)/xmmsclient
+	use python && python_mod_cleanup "$(python_get_sitedir)/xmmsclient"
 }
