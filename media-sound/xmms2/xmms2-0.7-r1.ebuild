@@ -66,7 +66,7 @@ RDEPEND="server? (
 	ruby? ( >=dev-lang/ruby-1.8.5 ) "
 
 DEPEND="${RDEPEND}
-	>=dev-lang/python-2.4.3"
+	=dev-lang/python-2*"
 
 S="${WORKDIR}/${MY_P}"
 
@@ -91,6 +91,11 @@ xmms2_flag() {
 			use $1 && echo ",${UWORD}"
 			;;
 	esac
+}
+
+pkg_setup() {
+	python_set_active_version 2
+	python_pkg_setup
 }
 
 src_configure() {
