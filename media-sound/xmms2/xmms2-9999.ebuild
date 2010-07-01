@@ -63,11 +63,12 @@ RDEPEND="server? (
 	cxx? ( >=dev-libs/boost-1.32 )
 	mlib-update? ( app-admin/gamin )
 	perl? ( >=dev-lang/perl-5.8.8 )
-	python? ( >=dev-python/pyrex-0.9.5.1 )
+	python? ( =dev-lang/python-2* )
 	ruby? ( >=dev-lang/ruby-1.8.5 ) "
 
 DEPEND="${RDEPEND}
-	=dev-lang/python-2*"
+	=dev-lang/python-2*
+	python? ( dev-python/pyrex )"
 
 S=${WORKDIR}/xmms2-devel
 
