@@ -169,7 +169,7 @@ src_configure() {
 					"		mac"
 					"		mms"
 					"		mad"
-					"aac		mp4"
+					"DISABLED	mp4" # uses bundled patched faad2
 					"mp3		mpg123"
 					"		modplug"
 					"		musepack"
