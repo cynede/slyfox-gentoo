@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=2
+EAPI=3
 inherit eutils python git
 
 DESCRIPTION="X(cross)platform Music Multiplexing System. The new generation of the XMMS player."
@@ -238,9 +238,9 @@ pkg_postinst() {
 		einfo "Disable the phonehome useflag if you don't like that"
 	fi
 
-	use python && python_mod_optimize "$(python_get_sitedir)/xmmsclient"
+	use python && python_mod_optimize xmmsclient
 }
 
 pkg_postrm() {
-	use python && python_mod_cleanup "$(python_get_sitedir)/xmmsclient"
+	use python && python_mod_cleanup xmmsclient
 }
