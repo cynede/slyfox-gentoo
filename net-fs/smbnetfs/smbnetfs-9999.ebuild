@@ -13,19 +13,24 @@ EGIT_REPO_URI="git://smbnetfs.git.sourceforge.net/gitroot/smbnetfs/smbnetfs"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS=""
-IUSE=""
+IUSE="gnome"
 
 RDEPEND=">=sys-fs/fuse-2.3
-	>=net-fs/samba-3.2[smbclient]"
+	>=net-fs/samba-3.2[smbclient]
+	gnome? ( gnome-base/gnome-keyring )"
 
 DEPEND="${RDEPEND}
+	dev-util/pkgconfig
 	sys-devel/libtool
 	sys-devel/make"
 
-src_unpack() {
-	git_src_unpack ${A}
-	cd "${S}"
-	./autogen.sh || die "./autogen.sh failed"
+src_prepare() {
+	eautoreconf
+	#./autogen.sh || die "./autogen.sh failed"
+}
+
+src_configure() {
+	econf $(use_with gnome gnome-keyring) || die "econf failed"
 }
 
 src_install() {
