@@ -70,6 +70,8 @@ DEPEND="${RDEPEND}
 	=dev-lang/python-2*
 	python? ( dev-python/pyrex )"
 
+PATCHES=("${FILESDIR}/xmms2-0.7DrNo-missing-protos.patch")
+
 S=${WORKDIR}/xmms2-devel
 
 # use_enable() is taken as proto

@@ -49,5 +49,9 @@ pkg_setup() {
 
 src_install() {
 	gnome2_src_install
+	# bug #...
+	# uses xulrunner's JIT (needs disabled MPROTECT to
+	# generate code in runtime). Firefox binary has the
+	# same marking
 	pax-mark m "${D}"/usr/bin/liferea
 }
