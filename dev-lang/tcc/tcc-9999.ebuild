@@ -42,7 +42,10 @@ src_compile() {
 	local myopts
 	use x86 && myopts="--cpu=x86"
 	use amd64 && myopts="--cpu=x86-64"
-	econf ${myopts} --extra-cflags="$CFLAGS" --extra-ldflags="$LDFLAGS"
+	econf ${myopts} \
+	    --cc="$(tc-getCC)" \
+	    --extra-cflags="$CFLAGS" \
+	    --extra-ldflags="$LDFLAGS"
 	emake || die "make failed"
 }
 
