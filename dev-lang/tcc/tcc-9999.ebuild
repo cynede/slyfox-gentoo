@@ -26,9 +26,6 @@ RESTRICT="test"
 src_unpack() {
 	git_src_unpack
 	cd "${S}"
-	#epatch "${FILESDIR}"/${PN}-0.9.23-anonunion.patch
-	#epatch "${FILESDIR}"/${PN}-0.9.23-asneeded.patch
-	#epatch "${FILESDIR}"/${PN}-0.9.23-nxbit.patch
 
 	# Don't strip
 	sed -i -e 's|$(INSTALL) -s|$(INSTALL)|' Makefile
@@ -45,18 +42,12 @@ src_compile() {
 	local myopts
 	use x86 && myopts="--cpu=x86"
 	use amd64 && myopts="--cpu=x86-64"
-	econf ${myopts}
+	econf ${myopts} --extra-cflags="$CFLAGS" --extra-ldflags="$LDFLAGS"
 	emake || die "make failed"
 }
 
 src_install() {
-	emake \
-		bindir="${D}"/usr/bin \
-		libdir="${D}"/usr/lib \
-		tccdir="${D}"/usr/lib/tcc \
-		includedir="${D}"/usr/include \
-		docdir="${D}"/usr/share/doc/${PF} \
-		mandir="${D}"/usr/share/man install || die "make install failed"
+	emake DESTDIR="${D}" install || die "make install failed"
 	dodoc Changelog README TODO VERSION
 	dohtml tcc-doc.html
 	exeinto /usr/share/doc/${PF}/examples
