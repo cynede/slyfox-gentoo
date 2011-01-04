@@ -49,8 +49,9 @@ pkg_setup() {
 
 src_install() {
 	gnome2_src_install
-	# bug #...
-	# uses webkit's JIT (needs disabled MPROTECT to
-	# generate code in runtime).
+	# bug #338213
+	# Uses webkit's JIT. Needs mmap('rwx') to generate code in runtime.
+	# MPROTECT policy violation. Will sit here until webkit will
+	# get optional JIT.
 	pax-mark m "${D}"/usr/bin/liferea
 }
