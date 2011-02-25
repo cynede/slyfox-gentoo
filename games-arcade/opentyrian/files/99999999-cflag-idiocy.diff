@@ -1,6 +1,5 @@
-diff -r 2f7252944853 Makefile
---- a/Makefile	Tue Feb 23 03:26:19 2010 +0000
-+++ b/Makefile	Sun Feb 28 21:17:06 2010 +0200
+--- Makefile.orig	2011-02-25 12:20:21.000000000 +0200
++++ Makefile	2011-02-25 12:53:00.902879997 +0200
 @@ -18,11 +18,6 @@
  
  # FLAGS ####################################################
@@ -10,6 +9,6 @@ diff -r 2f7252944853 Makefile
 -else
 -    EXTRA_CFLAGS += -g0 -O2 -DNDEBUG
 -endif
- EXTRA_CFLAGS += -MMD -pedantic -Wall -Wextra -Wno-sign-compare -Wno-missing-field-initializers
+ EXTRA_CFLAGS += -MMD -pedantic -Wall -Wextra -Wno-missing-field-initializers
  
  HG_REV := $(shell hg id -ib && touch src/hg_revision.h)

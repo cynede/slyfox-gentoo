@@ -22,8 +22,8 @@ DEPEND="${RDEPEND}
 S=${WORKDIR}/hg
 
 src_unpack() {
-	base_src_unpack ${A}
 	mercurial_src_unpack ${A}
+	base_src_unpack ${A}
 	cd "${S}"
 	epatch "${FILESDIR}/20091025-datapath.diff"
 	epatch "${FILESDIR}/99999999-cflag-idiocy.diff"
