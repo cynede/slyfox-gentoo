@@ -3,7 +3,7 @@
 # $Header: $
 
 EAPI=3
-inherit eutils python git
+inherit eutils python git toolchain-funcs
 
 DESCRIPTION="X(cross)platform Music Multiplexing System. The new generation of the XMMS player."
 HOMEPAGE="http://xmms2.org/wiki/Main_Page"
@@ -214,7 +214,12 @@ src_configure() {
 	waf_params+=" --with-optionals=${optionals:1}" # skip first ',' if yet
 	waf_params+=" --with-plugins=${plugins:1}"
 
-	./waf ${waf_params} configure || die "'waf configure' failed"
+	CC="$(tc-getCC)"         \
+	CPP="$(tc-getCPP)"       \
+	AR="$(tc-getAR)"         \
+	RANLIB="$(tc-getRANLIB)" \
+	CXX="$(tc-getCXX)"       \
+	    ./waf configure ${waf_params} || die "'waf configure' failed"
 }
 
 src_compile() {
