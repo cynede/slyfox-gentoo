@@ -19,9 +19,12 @@ IUSE="doc +ocamlopt python"
 RDEPEND="python? ( dev-lang/python )
 	>=dev-lang/ocaml-3.10[ocamlopt?]
 	dev-ml/menhir"
+
+# dev-texlive/texlive-fontsextra contains 'ifsym.sty'
 DEPEND="${RDEPEND}
 	doc? ( virtual/latex-base
-		|| ( dev-texlive/texlive-latexextra app-text/ptex ) )"
+		|| ( dev-texlive/texlive-latexextra app-text/ptex )
+		dev-texlive/texlive-fontsextra )"
 
 src_configure() {
 	# non-autoconf
