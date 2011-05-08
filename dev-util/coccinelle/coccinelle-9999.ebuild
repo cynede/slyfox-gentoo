@@ -47,6 +47,7 @@ src_compile() {
 }
 
 src_test() {
+	source env.sh
 	./spatch standard.h -parse_c -dir tests/ || die
 	yes | ./spatch -iso_file standard.iso -macro_file_builtins standard.h -testall || die
 	if use ocamlopt ; then
