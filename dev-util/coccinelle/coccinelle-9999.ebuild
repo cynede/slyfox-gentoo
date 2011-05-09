@@ -20,6 +20,8 @@ RDEPEND="python? ( dev-lang/python )
 	>=dev-lang/ocaml-3.10[ocamlopt?]
 	dev-ml/menhir"
 
+RESTRICT="strip" # paludis does not understand 'STRIP_MASK'
+
 # dev-texlive/texlive-fontsextra contains 'ifsym.sty'
 DEPEND="${RDEPEND}
 	doc? ( virtual/latex-base
