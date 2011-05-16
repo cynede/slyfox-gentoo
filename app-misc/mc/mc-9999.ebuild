@@ -1,13 +1,13 @@
-# Copyright 1999-2009 Gentoo Foundation
+# Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Header: /var/cvsroot/gentoo-x86/app-misc/mc/mc-4.7.5.2.ebuild,v 1.1 2011/04/12 13:54:22 wired Exp $
 
-EAPI=2
+EAPI=4
 
-inherit autotools flag-o-matic git
+inherit autotools flag-o-matic git-2
 
-DESCRIPTION="GNU Midnight Commander is a text mode file manager."
-HOMEPAGE="http://midnight-commander.org/"
+DESCRIPTION="GNU Midnight Commander is a text based file manager"
+HOMEPAGE="http://midnight-commander.org"
 EGIT_REPO_URI="git://midnight-commander.org/git/mc.git"
 
 LICENSE="GPL-2"
@@ -15,75 +15,65 @@ SLOT="0"
 
 KEYWORDS=""
 
-IUSE="+background +editor ext2undel gpm +network nls samba +vfs X +slang +charset"
+IUSE="+edit gpm +ncurses nls samba slang X"
 
-RDEPEND=">=dev-libs/glib-2.6:2
-	ext2undel? ( sys-fs/e2fsprogs )
+REQUIRED_USE="^^ ( ncurses slang )"
+
+RDEPEND=">=dev-libs/glib-2.8:2
 	gpm? ( sys-libs/gpm )
+	kernel_linux? ( sys-fs/e2fsprogs )
+	ncurses? ( sys-libs/ncurses )
 	samba? ( net-fs/samba )
-	slang? ( >=sys-libs/slang-2.1.3 )
-	!slang? ( sys-libs/ncurses )
+	slang? ( >=sys-libs/slang-2 )
 	X? ( x11-libs/libX11
 		x11-libs/libICE
 		x11-libs/libXau
 		x11-libs/libXdmcp
 		x11-libs/libSM )"
-
 DEPEND="${RDEPEND}
-	nls? ( sys-devel/gettext )
-	dev-util/pkgconfig"
+	app-arch/xz-utils
+	dev-util/pkgconfig
+	nls? ( sys-devel/gettext )"
 
 # needed only for SCM source tree (autopoint uses it)
 DEPEND="${DEPEND} dev-vcs/cvs"
 
-src_unpack() {
-	git_src_unpack
-}
-
 src_prepare() {
-	cd "${S}"
 	./autogen.sh
 }
 
 src_configure() {
-	# check for conflicts (currently doesn't compile with --without-vfs)
-	use vfs || {
-		use network || use samba && \
-		die "VFS is required for network or samba support."
-	}
+	local myscreen=ncurses
+	use slang && myscreen=slang
 
-	local myconf=""
-	# TODO: make sure we really need it (bundled samba?)
-	append-flags "-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE"
-
-	if use samba; then
-		myconf+=" --with-samba --with-configdir=/etc/samba --with-codepagedir=/var/lib/samba/codepages"
-	else
-		myconf+=" --without-samba"
-	fi
-
-	myconf+=" --with-screen=ncurses"
-	use slang && myconf+=" --with-screen=slang"
-
-	econf --disable-dependency-tracking \
-			$(use_enable background) \
-			$(use_enable network netcode) \
-			$(use_enable nls) \
-			$(use_enable charset) \
-			$(use_with editor edit) \
-			$(use_with ext2undel) \
-			$(use_with gpm gpm-mouse) \
-			$(use_with vfs) \
-			$(use_with X x) \
-			${myconf}
+	econf \
+		--disable-dependency-tracking \
+		$(use_enable nls) \
+		--enable-vfs \
+		$(use_enable kernel_linux vfs-undelfs) \
+		--enable-charset \
+		$(use_with X x) \
+		$(use_enable samba vfs-smb) \
+		$(use_with gpm gpm-mouse) \
+		--with-screen=${myscreen} \
+		$(use_with edit)
 }
 
 src_install() {
-	emake DESTDIR="${D}" install || die "emake install failed."
-	dodoc AUTHORS doc/COPYING doc/NEWS doc/README* doc/FAQ doc/HACKING doc/MAINTAINERS doc/TODO
+	emake DESTDIR="${D}" install || die
+	dodoc AUTHORS README
 
-	# Install cons.saver setuid to actually work
-	# for more actual info see mc/src/cons.saver.c
-	fowners root:tty /usr/libexec/mc/cons.saver
-	fperms g+s /usr/libexec/mc/cons.saver
+	# fix bug #334383
+	if [[ ${EUID} == 0 ]] ; then
+		fowners root:tty /usr/libexec/mc/cons.saver ||
+			die "setting cons.saver's owner failed"
+		fperms g+s /usr/libexec/mc/cons.saver ||
+			die "setting cons.saver's permissions failed"
+	fi
+}
+
+pkg_postinst() {
+	elog "To enable exiting to latest working directory,"
+	elog "put this into your ~/.bashrc:"
+	elog ". ${EPREFIX}/usr/libexec/mc/mc.sh"
 }
