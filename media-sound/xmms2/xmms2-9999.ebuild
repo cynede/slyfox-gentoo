@@ -70,8 +70,6 @@ DEPEND="${RDEPEND}
 	=dev-lang/python-2*
 	python? ( dev-python/pyrex )"
 
-PATCHES=("${FILESDIR}/xmms2-0.7DrNo-missing-protos.patch")
-
 S=${WORKDIR}/xmms2-devel
 
 # use_enable() is taken as proto
@@ -119,7 +117,6 @@ src_configure() {
 		# some fun static mappings:
 		local option_map=(	# USE		# sorted xmms2 option flag (same, as USE if empty)
 					"avahi		avahi"
-					"ENABLED	cli"
 					"avahi		dns_sd"
 					"phonehome	et"
 					"ENABLED	launcher"
