@@ -1,0 +1,12 @@
+diff --git a/test/torrent/extents_test.cc b/test/torrent/extents_test.cc
+index 432064d..1a2e248 100644
+--- a/test/torrent/extents_test.cc
++++ b/test/torrent/extents_test.cc
+@@ -4,6 +4,7 @@
+ 
+ #include <torrent/utils/extents.h>
+ #include <iostream>
++#include <inttypes.h>
+ 
+ CPPUNIT_TEST_SUITE_REGISTRATION(ExtentsTest);
+ 
