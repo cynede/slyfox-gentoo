@@ -70,8 +70,6 @@ DEPEND="${RDEPEND}
 	=dev-lang/python-2*
 	python? ( dev-python/pyrex )"
 
-EGIT_PATCHES=("${FILESDIR}/xmms2-9999-0001-OTHER-fix-bitrate-reporting-in-mac-plugin-.ape-forma.patch")
-
 S=${WORKDIR}/xmms2-devel
 
 # use_enable() is taken as proto
