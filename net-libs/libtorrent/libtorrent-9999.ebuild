@@ -26,6 +26,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/${PN}-0.12.7-test.patch
 	epatch "${FILESDIR}"/download_constructor.diff
 	epatch "${FILESDIR}"/${PN}-9999-test-fix-gcc4.5.patch
+	epatch "${FILESDIR}"/${PN}-9999-1263-unaligned-access.patch
 	./autogen.sh
 	elibtoolize
 }

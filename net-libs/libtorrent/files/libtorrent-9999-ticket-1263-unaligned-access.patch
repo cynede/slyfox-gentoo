@@ -1,0 +1,47 @@
+http://libtorrent.rakshasa.no/ticket/1263
+diff --git a/src/dht/dht_hash_map.h b/src/dht/dht_hash_map.h
+index a8bed6c..96d9692 100644
+--- a/src/dht/dht_hash_map.h
++++ b/src/dht/dht_hash_map.h
+@@ -44,6 +44,7 @@
+ #else
+ #include <map>
+ #endif
++#include <cstring>
+ 
+ #include "torrent/hash_string.h"
+ 
+@@ -62,16 +63,31 @@ namespace torrent {
+ // An offset of 64 bits provides 96 significant bits which is fine as long as
+ // the size of size_t does not exceed 12 bytes, while still having correctly
+ // aligned 64-bit access.
++
++/*
++ * unfortunately, HashString->data itself is not guaranteed to be aligned
++ * by sane boundary (see HasString::cast_from(const char*))
++ */
+ static const unsigned int hashstring_hash_ofs = 8;
+ 
+ struct hashstring_ptr_hash : public std::unary_function<const HashString*, size_t> {
+   size_t operator () (const HashString* n) const 
+-  { return *(size_t*)(n->data() + hashstring_hash_ofs); }
++  {
++    size_t result;
++    memcpy(&result, n->data() + hashstring_hash_ofs, sizeof (result)); 
++    return result;
++    //return *(size_t*)(n->data() + hashstring_hash_ofs);
++  }
+ };
+ 
+ struct hashstring_hash : public std::unary_function<HashString, size_t> {
+   size_t operator () (const HashString& n) const 
+-  { return *(size_t*)(n.data() + hashstring_hash_ofs); }
++  {
++    size_t result;
++    memcpy(&result, n->data() + hashstring_hash_ofs, sizeof (result)); 
++    return result;
++    //return *(size_t*)(n.data() + hashstring_hash_ofs);
++  }
+ };
+ 
+ // Compare HashString pointers by dereferencing them.
