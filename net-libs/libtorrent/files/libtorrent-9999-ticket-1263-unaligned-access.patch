@@ -27,7 +27,7 @@ index a8bed6c..96d9692 100644
 -  { return *(size_t*)(n->data() + hashstring_hash_ofs); }
 +  {
 +    size_t result;
-+    memcpy(&result, n->data() + hashstring_hash_ofs, sizeof (result)); 
++    std::memcpy(&result, n->data() + hashstring_hash_ofs, sizeof (result));
 +    return result;
 +    //return *(size_t*)(n->data() + hashstring_hash_ofs);
 +  }
@@ -38,7 +38,7 @@ index a8bed6c..96d9692 100644
 -  { return *(size_t*)(n.data() + hashstring_hash_ofs); }
 +  {
 +    size_t result;
-+    memcpy(&result, n->data() + hashstring_hash_ofs, sizeof (result)); 
++    std::memcpy(&result, n.data() + hashstring_hash_ofs, sizeof (result));
 +    return result;
 +    //return *(size_t*)(n.data() + hashstring_hash_ofs);
 +  }
