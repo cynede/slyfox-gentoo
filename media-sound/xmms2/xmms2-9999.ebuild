@@ -1,9 +1,10 @@
-# Copyright 1999-2010 Gentoo Foundation
+# Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=3
-inherit eutils python git toolchain-funcs
+EAPI="3"
+
+inherit eutils python git-2 toolchain-funcs
 
 DESCRIPTION="X(cross)platform Music Multiplexing System. The new generation of the XMMS player."
 HOMEPAGE="http://xmms2.org/wiki/Main_Page"
@@ -14,7 +15,7 @@ EGIT_REPO_URI=git://git.xmms.se/xmms2/xmms2-devel
 EGIT_PROJECT=xmms2-devel
 
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS=""
 
 IUSE="aac airplay +alsa ao asf avahi cdda curl cxx ffmpeg flac gvfs ices
 jack mac mlib-update mms +mad modplug mp3 musepack ofa oss
@@ -96,10 +97,6 @@ xmms2_flag() {
 pkg_setup() {
 	python_set_active_version 2
 	python_pkg_setup
-}
-
-src_prepare() {
-	git_src_prepare
 }
 
 src_configure() {

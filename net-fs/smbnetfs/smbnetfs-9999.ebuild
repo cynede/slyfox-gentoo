@@ -1,9 +1,10 @@
-# Copyright 1999-2010 Gentoo Foundation
+# Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=2
-inherit eutils autotools git
+EAPI="3"
+
+inherit eutils autotools git-2
 
 DESCRIPTION="FUSE filesystem for SMB shares"
 HOMEPAGE="http://sourceforge.net/projects/smbnetfs"

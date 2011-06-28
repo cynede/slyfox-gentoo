@@ -1,8 +1,10 @@
-# Copyright 1999-2009 Gentoo Foundation
+# Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-lang/tcc/tcc-0.9.25.ebuild,v 1.1 2009/07/10 21:44:58 truedfx Exp $
 
-inherit eutils git
+EAPI="3"
+
+inherit eutils git-2
 
 IUSE=""
 DESCRIPTION="A very small C compiler for ix86/amd64"
@@ -23,10 +25,7 @@ RDEPEND="!dev-lang/tendra"
 # invalid C code that it no longer accepts
 RESTRICT="test"
 
-src_unpack() {
-	git_src_unpack
-	cd "${S}"
-
+src_prepare() {
 	# Don't strip
 	sed -i -e 's|$(INSTALL) -s|$(INSTALL)|' Makefile
 
@@ -38,7 +37,7 @@ src_unpack() {
 	sed -i -e '1s/$/ -lX11/' examples/ex4.c
 }
 
-src_compile() {
+src_configure() {
 	local myopts
 	use x86 && myopts="--cpu=x86"
 	use amd64 && myopts="--cpu=x86-64"
@@ -46,7 +45,6 @@ src_compile() {
 	    --cc="$(tc-getCC)" \
 	    --extra-cflags="$CFLAGS" \
 	    --extra-ldflags="$LDFLAGS"
-	emake || die "make failed"
 }
 
 src_install() {
