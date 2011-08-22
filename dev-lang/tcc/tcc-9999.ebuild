@@ -35,6 +35,7 @@ src_prepare() {
 		/^#!/d
 	}' examples/ex*.c
 	sed -i -e '1s/$/ -lX11/' examples/ex4.c
+	epatch "${FILESDIR}/${PN}"-9999-mimic-autoconf.patch
 }
 
 src_configure() {

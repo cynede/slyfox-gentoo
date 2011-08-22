@@ -1,0 +1,15 @@
+diff --git a/configure b/configure
+index 3d68b1c..f74db9f 100755
+--- a/configure
++++ b/configure
+@@ -168,6 +168,10 @@ for opt do
+   ;;
+   --help|-h) show_help="yes"
+   ;;
++  # crosstargeting support is handicap (and autotools support in general
++  # so just giveup and passthru
++  --build=*|--host=*|--target=*|--datadir=*|--sysconfdir=*|--localstatedir=*)
++  ;;
+   *) echo "configure: unrecognized option $opt"; exit 1
+   ;;
+   esac
