@@ -39,9 +39,9 @@ src_prepare() {
 	#### warning about executable stacks.
 	### epatch "${FILESDIR}/valgrind-3.6.0-non-exec-stack.patch"
 
-	# Fix up some suppressions that were not general enough for glibc versions
-	# with more than just a major and minor number.
-	epatch "${FILESDIR}/valgrind-3.4.1-glibc-2.10.1.patch"
+	### # Fix up some suppressions that were not general enough for glibc versions
+	### # with more than just a major and minor number.
+	### epatch "${FILESDIR}/valgrind-3.4.1-glibc-2.10.1.patch"
 
 	# Regenerate autotools files
 	eautoreconf
