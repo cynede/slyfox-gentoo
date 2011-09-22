@@ -1,0 +1,29 @@
+Fix library link order.
+
+x86_64-pc-linux-gnu-gcc -m64 -fomit-frame-pointer -fno-stack-protector -O2 -g -Wall -Wmissing-prototypes -Wshadow -Wpointer-arith -Wstrict-prototypes -Wmissing-declarations -Wno-format-zero-length -fno-strict-aliasing -Wno-long-long -O2 -pipe -ggdb -nopie -fno-stack-protector -Wno-pointer-sign -fno-stack-protector -m64 -fomit-frame-pointer -fno-stack-protector -O2 -g -Wall -Wmissing-prototypes -Wshadow -Wpointer-arith -Wstrict-prototypes -Wmissing-declarations -Wno-format-zero-length -fno-strict-aliasing -lpthread  -Wl,--hash-style=gnu -Wl,-O1 -Wl,--as-needed -o vgdb vgdb-vgdb.o  
+vgdb-vgdb.o: In function `received_signal':
+valgrind-9999/work/valgrind-9999/coregrind/vgdb.c:1547: undefined reference to `pthread_cancel'
+vgdb-vgdb.o: In function `close_connection':
+valgrind-9999/work/valgrind-9999/coregrind/vgdb.c:1650: undefined reference to `pthread_join'
+vgdb-vgdb.o: In function `standalone_send_commands':
+valgrind-9999/work/valgrind-9999/coregrind/vgdb.c:1796: undefined reference to `pthread_create'
+vgdb-vgdb.o: In function `gdb_relay':
+/var/tmp/paludis/dev-util-valgrind-9999/work/valgrind-9999/coregrind/vgdb.c:1673: undefined reference to `pthread_create'
+vgdb-vgdb.o: In function `invoke_gdbserver_in_valgrind':
+valgrind-9999/work/valgrind-9999/coregrind/vgdb.c:1131: undefined reference to `__pthread_register_cancel'
+valgrind-9999/work/valgrind-9999/coregrind/vgdb.c:1221: undefined reference to `__pthread_unregister_cancel'
+
+Breakage found by Diego Pettenò.
+diff --git a/coregrind/Makefile.am b/coregrind/Makefile.am
+index 6d57695..29fa297 100644
+--- a/coregrind/Makefile.am
++++ b/coregrind/Makefile.am
+@@ -58,7 +58,7 @@ vgdb_CFLAGS    = $(AM_CFLAGS_PRI)
+ vgdb_CCASFLAGS = $(AM_CCASFLAGS_PRI)
+ vgdb_LDFLAGS   = $(AM_CFLAGS_PRI)
+ if !VGCONF_PLATVARIANT_IS_ANDROID
+-vgdb_LDFLAGS   += -lpthread
++vgdb_LDADD     = -lpthread
+ endif
+ if VGCONF_PLATFORMS_INCLUDE_X86_DARWIN
+ vgdb_LDFLAGS   += -Wl,-read_only_relocs -Wl,suppress
