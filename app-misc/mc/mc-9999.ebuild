@@ -10,12 +10,12 @@ DESCRIPTION="GNU Midnight Commander is a text based file manager"
 HOMEPAGE="http://midnight-commander.org"
 EGIT_REPO_URI="git://midnight-commander.org/git/mc.git"
 
-LICENSE="GPL-2"
+LICENSE="GPL-3"
 SLOT="0"
 
 KEYWORDS=""
 
-IUSE="+edit gpm +ncurses nls samba slang X"
+IUSE="+edit gpm +ncurses nls samba slang test X"
 
 REQUIRED_USE="^^ ( ncurses slang )"
 
@@ -33,7 +33,9 @@ RDEPEND=">=dev-libs/glib-2.8:2
 DEPEND="${RDEPEND}
 	app-arch/xz-utils
 	dev-util/pkgconfig
-	nls? ( sys-devel/gettext )"
+	nls? ( sys-devel/gettext )
+	test? ( dev-libs/check )
+	"
 
 # needed only for SCM source tree (autopoint uses it)
 DEPEND="${DEPEND} dev-vcs/cvs"
@@ -45,6 +47,7 @@ src_prepare() {
 src_configure() {
 	local myscreen=ncurses
 	use slang && myscreen=slang
+	[[ ${CHOST} == *-solaris* ]] && append-ldflags "-lnsl -lsocket"
 
 	econf \
 		--disable-dependency-tracking \
@@ -56,7 +59,8 @@ src_configure() {
 		$(use_enable samba vfs-smb) \
 		$(use_with gpm gpm-mouse) \
 		--with-screen=${myscreen} \
-		$(use_with edit)
+		$(use_with edit) \
+		$(use_enable test tests)
 }
 
 src_install() {
