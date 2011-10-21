@@ -20,7 +20,7 @@ KEYWORDS=""
 IUSE="aac airplay +alsa ao asf avahi cdda curl cxx ffmpeg flac gvfs ices
 jack mac mlib-update mms +mad modplug mp3 musepack ofa oss
 perl phonehome pulseaudio python ruby
-samba +server sid speex +vorbis vocoder wavpack xml"
+samba +server sid sndfile speex test +vorbis vocoder wavpack xml"
 
 RDEPEND="server? (
 		>=dev-db/sqlite-3.3.4
@@ -29,11 +29,12 @@ RDEPEND="server? (
 		airplay? ( dev-libs/openssl )
 		alsa? ( media-libs/alsa-lib )
 		ao? ( media-libs/libao )
-		avahi? ( net-dns/avahi )
-		cdda? ( >=media-libs/libdiscid-0.1.1
+		avahi? ( net-dns/avahi[mdnsresponder-compat] )
+		cdda? ( dev-libs/libcdio
+			>=media-libs/libdiscid-0.1.1
 			>=media-sound/cdparanoia-3.9.8 )
 		curl? ( >=net-misc/curl-7.15.1 )
-		ffmpeg? ( media-video/ffmpeg )
+		ffmpeg? ( virtual/ffmpeg )
 		flac? ( media-libs/flac )
 		gvfs? ( gnome-base/gnome-vfs )
 		ices? ( media-libs/libogg
@@ -41,7 +42,7 @@ RDEPEND="server? (
 			media-libs/libvorbis )
 		jack? ( >=media-sound/jack-audio-connection-kit-0.101.1 )
 		mac? ( media-sound/mac )
-		mms? ( media-video/ffmpeg
+		mms? ( virtual/ffmpeg
 			>=media-libs/libmms-0.3 )
 		modplug? ( media-libs/libmodplug )
 		mad? ( media-sound/madplay )
@@ -52,6 +53,7 @@ RDEPEND="server? (
 		samba? ( net-fs/samba[smbclient] )
 		sid? ( media-sound/sidplay
 			media-libs/resid )
+		sndfile? ( media-libs/libsndfile )
 		speex? ( media-libs/speex
 			media-libs/libogg )
 		vorbis? ( media-libs/libvorbis )
@@ -63,13 +65,16 @@ RDEPEND="server? (
 	>=dev-libs/glib-2.12.9
 	cxx? ( >=dev-libs/boost-1.32 )
 	perl? ( >=dev-lang/perl-5.8.8 )
-	python? ( =dev-lang/python-2* )
-	ruby? ( >=dev-lang/ruby-1.8.5 )
-	"
+	python? ( dev-lang/python )
+	ruby? ( >=dev-lang/ruby-1.8.5 ) "
 
 DEPEND="${RDEPEND}
-	=dev-lang/python-2*
-	python? ( dev-python/pyrex )"
+	dev-lang/python
+	python? ( dev-python/pyrex )
+	perl? ( virtual/perl-Module-Build )
+	dev-util/pkgconfig
+	test? ( dev-util/cunit )
+	"
 
 S=${WORKDIR}/xmms2-devel
 
@@ -95,7 +100,6 @@ xmms2_flag() {
 }
 
 pkg_setup() {
-	python_set_active_version 2
 	python_pkg_setup
 }
 
@@ -117,8 +121,6 @@ src_configure() {
 	else
 		# some fun static mappings:
 		local option_map=(	# USE		# sorted xmms2 option flag (same, as USE if empty)
-					"avahi		avahi"
-					"avahi		dns_sd"
 					"phonehome	et"
 					"ENABLED	launcher"
 					"mlib-update	medialib-updater"
@@ -133,6 +135,8 @@ src_configure() {
 					"cxx		xmmsclient++-glib"
 					"DISABLED	xmmsclient-cf"
 					"DISABLED	xmmsclient-ecore" # not in tree
+
+					"test		tests"
 				)
 
 		local plugin_map=(	# USE		# sorted xmms2 plugin flag (same, as USE if empty)
@@ -184,6 +188,7 @@ src_configure() {
 					"		samba"
 					"DISABLED	sc68" #not in tree
 					"		sid"
+					"		sndfile"
 					"		speex"
 					"DISABLED	sun" # {Open,Net}BSD only
 					"DISABLED	tremor" # not in tree
@@ -221,6 +226,7 @@ src_configure() {
 }
 
 src_compile() {
+	# also runs tests if 'use test' in enabled (see tests option)
 	./waf build || die "waf build failed"
 }
 
