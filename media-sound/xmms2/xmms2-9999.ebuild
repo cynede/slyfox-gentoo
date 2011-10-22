@@ -18,7 +18,7 @@ SLOT="0"
 KEYWORDS=""
 
 IUSE="aac airplay +alsa ao asf avahi cdda curl cxx ffmpeg flac gvfs ices
-jack mac mlib-update mms +mad modplug mp3 musepack ofa oss
+jack mac mlib-update mms +mad modplug mp3 mp4 musepack ofa oss
 perl phonehome pulseaudio python ruby
 samba +server sid sndfile speex test +vorbis vocoder wavpack xml"
 
@@ -171,7 +171,7 @@ src_configure() {
 					"		mac"
 					"		mms"
 					"		mad"
-					"DISABLED	mp4" # uses bundled patched faad2
+					"		mp4" # bug #387961 (aac, mp3, ape can sit there)
 					"mp3		mpg123"
 					"		modplug"
 					"		musepack"
