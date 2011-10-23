@@ -11,8 +11,8 @@ HOMEPAGE="http://linuxwireless.org/en/users/Drivers/ath9k_htc"
 SRC_URI="http://linuxwireless.org/download/htc_fw/${PV}/${FIRMWARE_NAME} -> ${P}-${FIRMWARE_NAME}
 	http://linuxwireless.org/download/htc_fw/${PV}/Changelog -> ${P}.Changelog"
 
-LICENSE="as-is" # fixme
-KEYWORDS="~amd64 ~x86"
+LICENSE="as-is"
+KEYWORDS="~amd64 ~arm ~x86"
 IUSE=""
 RESTRICT="mirror binchecks strip"
 SLOT="0"
