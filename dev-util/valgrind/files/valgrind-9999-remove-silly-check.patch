@@ -1,0 +1,48 @@
+diff --git a/configure.in b/configure.in
+index 1bca5c4..51cc938 100644
+--- a/configure.in
++++ b/configure.in
+@@ -95,43 +95,6 @@ fi
+ rm $tmpfile
+ 
+ 
+-# We don't want gcc < 3.0
+-AC_MSG_CHECKING([for a supported version of gcc])
+-
+-# Try to get the gcc version, sed-ing out some unexpected stuff
+-# that appears with the default gcc on OSX 10.6 and 10.7 respectively.
+-# Without this, the version number comes out as 686, 10 or 11 :-(
+-# 
+-# i686-apple-darwin10-gcc-4.2.1 (GCC) 4.2.1 (Apple Inc. build 5666) (dot 3)
+-# i686-apple-darwin11-llvm-gcc-4.2 (GCC) 4.2.1 (Based on Apple Inc. build 5658) (LLVM build 2335.15.00)
+-#
+-[gcc_version=`${CC} --version \
+-             | head -n 1 \
+-             | $SED 's/i686-apple-darwin10//' \
+-             | $SED 's/i686-apple-darwin11//' \
+-             | $SED 's/^[^0-9]*\([0-9.]*\).*$/\1/'`]
+-
+-is_clang="notclang"
+-if test "x`${CC} --version | head -n 1 | $SED 's/\(clang\) version.*/\1/'`" = "xclang" ; then
+-   is_clang="clang"
+-fi
+-
+-case "${is_clang}-${gcc_version}" in
+-     notclang-3.*)
+-	AC_MSG_RESULT([ok (${gcc_version})])
+-	;;
+-     notclang-4.*)
+-	AC_MSG_RESULT([ok (${gcc_version})])
+-	;;
+-     clang-2.9)
+-	AC_MSG_RESULT([ok (clang-${gcc_version})])
+-	;;
+-     *)
+-	AC_MSG_RESULT([no (${gcc_version})])
+-	AC_MSG_ERROR([please use gcc >= 3.0 or clang >= 2.9])
+-	;;
+-esac
+-
+ #----------------------------------------------------------------------------
+ # Arch/OS/platform tests.
+ #----------------------------------------------------------------------------
