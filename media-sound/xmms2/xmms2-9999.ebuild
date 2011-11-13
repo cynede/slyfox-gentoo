@@ -13,6 +13,7 @@ LICENSE="GPL-2 LGPL-2.1"
 
 EGIT_REPO_URI=git://git.xmms.se/xmms2/xmms2-devel
 EGIT_PROJECT=xmms2-devel
+EGIT_HAS_SUBMODULES=yeah
 
 SLOT="0"
 KEYWORDS=""
