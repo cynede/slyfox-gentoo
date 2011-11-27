@@ -43,8 +43,6 @@ src_prepare() {
 	### # with more than just a major and minor number.
 	### epatch "${FILESDIR}/valgrind-3.4.1-glibc-2.10.1.patch"
 
-	epatch "${FILESDIR}/${PN}"-9999-remove-silly-check.patch
-
 	# Regenerate autotools files
 	eautoreconf
 }
