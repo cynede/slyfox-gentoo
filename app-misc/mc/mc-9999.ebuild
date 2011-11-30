@@ -15,7 +15,7 @@ SLOT="0"
 
 KEYWORDS=""
 
-IUSE="+edit gpm +ncurses nls samba slang test X"
+IUSE="+edit gpm mclib +ncurses nls samba slang test X"
 
 REQUIRED_USE="^^ ( ncurses slang )"
 
@@ -60,15 +60,16 @@ src_configure() {
 		$(use_with gpm gpm-mouse) \
 		--with-screen=${myscreen} \
 		$(use_with edit) \
+		$(use_enable mclib) \
 		$(use_enable test tests)
 }
 
 src_install() {
 	emake DESTDIR="${D}" install || die
-	dodoc AUTHORS README
+	dodoc AUTHORS README NEWS
 
 	# fix bug #334383
-	if [[ ${EUID} == 0 ]] ; then
+	if use kernel_linux && [[ ${EUID} == 0 ]] ; then
 		fowners root:tty /usr/libexec/mc/cons.saver ||
 			die "setting cons.saver's owner failed"
 		fperms g+s /usr/libexec/mc/cons.saver ||
