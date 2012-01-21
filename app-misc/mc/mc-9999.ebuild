@@ -15,7 +15,7 @@ SLOT="0"
 
 KEYWORDS=""
 
-IUSE="+edit gpm mclib +ncurses nls samba slang test X"
+IUSE="+edit gpm mclib +ncurses nls samba slang test X +xdg"
 
 REQUIRED_USE="^^ ( ncurses slang )"
 
@@ -49,6 +49,9 @@ src_configure() {
 	use slang && myscreen=slang
 	[[ ${CHOST} == *-solaris* ]] && append-ldflags "-lnsl -lsocket"
 
+	local homedir=".mc"
+	use xdg && homedir="XDG"
+
 	econf \
 		--disable-dependency-tracking \
 		$(use_enable nls) \
@@ -61,7 +64,8 @@ src_configure() {
 		--with-screen=${myscreen} \
 		$(use_with edit) \
 		$(use_enable mclib) \
-		$(use_enable test tests)
+		$(use_enable test tests) \
+		--with-homedir=${homedir}
 }
 
 src_install() {
