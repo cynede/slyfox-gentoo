@@ -1,5 +1,5 @@
 diff --git a/configure b/configure
-index 3d68b1c..f74db9f 100755
+index f152cf9..7d6112c 100755
 --- a/configure
 +++ b/configure
 @@ -168,6 +168,10 @@ for opt do
@@ -10,6 +10,6 @@ index 3d68b1c..f74db9f 100755
 +  # so just giveup and passthru
 +  --build=*|--host=*|--target=*|--datadir=*|--sysconfdir=*|--localstatedir=*)
 +  ;;
-   *) echo "configure: unrecognized option $opt"; exit 1
+   *) echo "configure: WARNING: unrecognized option $opt"
    ;;
    esac
