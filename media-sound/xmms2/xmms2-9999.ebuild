@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI="3"
+EAPI=5
 
 inherit eutils python git-2 toolchain-funcs
 
@@ -102,6 +102,10 @@ xmms2_flag() {
 
 pkg_setup() {
 	python_pkg_setup
+}
+
+src_prepare() {
+	epatch_user
 }
 
 src_configure() {
