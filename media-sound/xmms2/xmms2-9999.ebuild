@@ -11,7 +11,7 @@ HOMEPAGE="http://xmms2.org/wiki/Main_Page"
 #SRC_URI="mirror://sourceforge/${PN}/${MY_P}.tar.bz2"
 LICENSE="GPL-2 LGPL-2.1"
 
-EGIT_REPO_URI="git://git.xmms.se/xmms2/xmms2-devel git://git.xmms2.org/xmms2/xmms2-devel"
+EGIT_REPO_URI="git://git.xmms2.org/xmms2/xmms2-devel"
 EGIT_PROJECT=xmms2-devel
 EGIT_HAS_SUBMODULES=yeah
 
