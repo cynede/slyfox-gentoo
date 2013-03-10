@@ -66,7 +66,9 @@ RDEPEND="server? (
 	>=dev-libs/glib-2.12.9
 	cxx? ( >=dev-libs/boost-1.32 )
 	perl? ( >=dev-lang/perl-5.8.8 )
-	python? ( dev-lang/python )
+	python? ( dev-lang/python
+		>=dev-python/cython-0.15.1
+	)
 	ruby? ( >=dev-lang/ruby-1.8.5 ) "
 
 DEPEND="${RDEPEND}
