@@ -1,0 +1,77 @@
+From 9de5c07eecfa42c62bd0ce72e412aa88d2ebc257 Mon Sep 17 00:00:00 2001
+From: Sergei Trofimovich <slyfox@gentoo.org>
+Date: Thu, 2 May 2013 01:10:55 +0300
+Subject: [PATCH] src/lib/xmmstypes/xmmsv_dict.c: xmmsv_dict_get() now NULLs
+ 'val' on error
+
+Bad use of on-stack garbage was caught by valgrind's 'medialib-runner' unit test
+
+==25730== Command: _build_/tests/medialib-runner
+==25730== Parent PID: 25729
+==25730==
+==25730== Conditional jump or move depends on uninitialised value(s)
+==25730==    at 0x424FF4: xmmsv_is_type (xmmsv_general.c:287)
+==25730==    by 0x412C31: collection_to_condition (medialib_query.c:730)
+==25730==    by 0x41253F: xmms_medialib_query_recurs (medialib_query.c:979)
+==25730==    by 0x411E21: xmms_medialib_query (medialib.c:1417)
+==25730==    by 0x40D5AD: run_unit_test (medialib-runner.c:263)
+==25730==    by 0x40D2EA: run_tests (medialib-runner.c:376)
+==25730==    by 0x40D093: main (medialib-runner.c:525)
+==25730==  Uninitialised value was created by a stack allocation
+==25730==    at 0x4128B0: collection_to_condition (medialib_query.c:921)
+
+Here we see use of unitialized 'field'.
+It seems to be a common pattern:
+    xmmsv_t * field;
+    xmmsv_dict_get (attrs, "field", &field);
+    if (xmmsv_is_type (field, XMMSV_TYPE_STRING))
+    /* CRASH, 'field' points to garbage */
+
+Patch makes xmmsv_dict_get() always return initialized 'field',
+as not many callers bother to check the error code.
+
+Signed-off-by: Sergei Trofimovich <slyfox@gentoo.org>
+---
+ src/lib/xmmstypes/xmmsv_dict.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/src/lib/xmmstypes/xmmsv_dict.c b/src/lib/xmmstypes/xmmsv_dict.c
+index 2fc305b..b35e1e3 100644
+--- a/src/lib/xmmstypes/xmmsv_dict.c
++++ b/src/lib/xmmstypes/xmmsv_dict.c
+@@ -305,6 +305,7 @@ xmmsv_dict_entry_get_type (xmmsv_t *val, const char *key)
+  * @param key The key in the dict.
+  * @param val Pointer set to a borrowed reference to the element
+  *            corresponding to the given key in the dict.
++ *            Or 'NULL's on failure.
+  * @return 1 upon success otherwise 0
+  */
+ int
+@@ -312,6 +313,7 @@ xmmsv_dict_get (xmmsv_t *dictv, const char *key, xmmsv_t **val)
+ {
+ 	xmmsv_dict_internal_t *dict;
+ 	int ret = 0;
++	xmmsv_t * res = NULL;
+ 	int pos, deleted;
+ 
+ 	x_return_val_if_fail (key, 0);
+@@ -331,12 +333,13 @@ xmmsv_dict_get (xmmsv_t *dictv, const char *key, xmmsv_t **val)
+ 			dict->data[deleted] = dict->data[pos];
+ 			dict->data[pos].str = DELETED_STR;
+ 		}
+-		if (val != NULL) {
+-			*val = dict->data[pos].value;
+-		}
++		res = dict->data[pos].value;
+ 		ret = 1;
+ 	}
+ 
++	if (val != NULL) {
++		*val = res;
++	}
+ 	return ret;
+ }
+ 
+-- 
+1.8.2.1
+
