@@ -107,7 +107,6 @@ pkg_setup() {
 }
 
 src_prepare() {
-	epatch "${FILESDIR}"/*.patch
 	epatch_user
 }
 
