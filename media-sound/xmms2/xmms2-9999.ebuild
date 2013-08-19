@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit eutils python git-2 toolchain-funcs
+inherit eutils git-2 multiprocessing python toolchain-funcs
 
 DESCRIPTION="X(cross)platform Music Multiplexing System. The new generation of the XMMS player."
 HOMEPAGE="http://xmms2.org/wiki/Main_Page"
@@ -238,7 +238,7 @@ src_configure() {
 
 src_compile() {
 	# also runs tests if 'use test' in enabled (see tests option)
-	./waf build || die "waf build failed"
+	./waf --jobs=$(makeopts_jobs) build || die "waf build failed"
 }
 
 src_install() {
