@@ -107,6 +107,10 @@ pkg_setup() {
 }
 
 src_prepare() {
+	./waf # inflate waf
+	cd .waf* || die
+	epatch "${FILESDIR}/${PN}"-0.8DrO_o-waflib-fix-perl.patch
+	cd "${S}"
 	epatch_user
 }
 
