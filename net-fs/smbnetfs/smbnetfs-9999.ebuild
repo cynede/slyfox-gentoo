@@ -2,13 +2,13 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI="3"
+EAPI=5
 
-inherit eutils autotools git-2
+inherit eutils autotools git-2 readme.gentoo
 
 DESCRIPTION="FUSE filesystem for SMB shares"
 HOMEPAGE="http://sourceforge.net/projects/smbnetfs"
-EGIT_REPO_URI="git://smbnetfs.git.sourceforge.net/gitroot/smbnetfs/smbnetfs"
+EGIT_REPO_URI="git://git.code.sf.net/p/smbnetfs/git"
 #SRC_URI="mirror://sourceforge/${PN}/${P}.tar.bz2"
 
 LICENSE="GPL-2"
@@ -25,24 +25,24 @@ DEPEND="${RDEPEND}
 	sys-devel/libtool
 	sys-devel/make"
 
+DISABLE_AUTOFORMATTING=yes
+DOC_CONTENTS="
+For quick usage, exec:
+'modprobe fuse'
+'smbnetfs -oallow_other /mnt/samba'
+"
+
 src_prepare() {
 	eautoreconf
 	#./autogen.sh || die "./autogen.sh failed"
 }
 
 src_configure() {
-	econf $(use_with gnome gnome-keyring) || die "econf failed"
+	econf $(use_with gnome gnome-keyring)
 }
 
 src_install() {
-	emake install DESTDIR="${D}" || die "make install failed"
+	default
+	readme.gentoo_create_doc
 	dodoc AUTHORS ChangeLog
-}
-
-pkg_postinst() {
-	elog
-	elog "For quick usage, exec:"
-	elog "'modprobe fuse'"
-	elog "'smbnetfs -oallow_other /mnt/samba'"
-	elog
 }
