@@ -1,0 +1,24 @@
+commit 805f4bc91cf80cfab66d853749ed36737e5c1913
+Author: Aleksey Cheusov <vle@gmx.net>
+Date:   Sat Dec 1 14:31:43 2012 +0300
+
+    Fix in declaring strl* functions
+
+diff --git a/runawk/file_hier.c b/runawk/file_hier.c
+index 915f5fd..efc645f 100644
+--- a/runawk/file_hier.c
++++ b/runawk/file_hier.c
+@@ -30,11 +30,11 @@
+ 
+ #include "file_hier.h"
+ 
+-#if HAVE_FUNC3_STRLCPY
++#if !HAVE_FUNC3_STRLCPY
+ size_t strlcpy(char *dst, const char *src, size_t size);
+ #endif
+ 
+-#if HAVE_FUNC3_STRLCAT
++#if !HAVE_FUNC3_STRLCAT
+ size_t strlcat(char *dst, const char *src, size_t size);
+ #endif
+ 
