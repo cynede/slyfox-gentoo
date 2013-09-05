@@ -16,7 +16,10 @@ DEPEND="dev-util/mk-configure"
 EXPORT_FUNCTIONS src_compile src_test src_install
 
 mk-configure_run_tool() {
-	BMAKE="${MKCMAKE}" bmake_run_tool "$@"
+	local mkc_env_args=(
+		STRIPFLAG=
+	)
+	BMAKE="${MKCMAKE}" bmake_run_tool "${mkc_env_args[@]}" "$@"
 }
 
 mk-configure_src_compile() {

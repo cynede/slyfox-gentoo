@@ -21,10 +21,14 @@ DEPEND="sys-devel/bmake"
 EXPORT_FUNCTIONS src_compile src_test src_install
 
 bmake_run_tool() {
-	local phase_env_args=()
+	local phase_env_args=(
+		# bmake-based build systems are very sensitive
+		# to external environment variables.
+		# At least 'app-misc/runawk' is affected by FILESDIR
+		-u FILESDIR
+	)
 	local job_args="-j $(makeopts_jobs)"
 
-	# common for all phases
 	phase_env_args+=(
 		PREFIX="${BMAKE_PREFIX}"
 		SYSCONFDIR="${BMAKE_SYSCONFDIR}"
