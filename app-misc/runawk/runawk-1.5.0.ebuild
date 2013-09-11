@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit base mk-configure
+inherit mk-configure
 
 DESCRIPTION="Wrapper for AWK providing modules"
 HOMEPAGE="http://sourceforge.net/projects/runawk/"
@@ -13,5 +13,3 @@ SRC_URI="mirror://sourceforge/project/${PN}/${PN}/${P}/${P}.tar.gz"
 LICENSE="BSD-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-
-PATCHES=("${FILESDIR}"/${P}-decl.patch)
