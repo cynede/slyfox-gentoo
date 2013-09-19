@@ -3,7 +3,7 @@
 # $Header: $
 
 EAPI=5
-inherit cmake-utils flag-o-matic
+inherit eutils cmake-utils flag-o-matic
 
 DESCRIPTION="find unused include directives in C/C++ programs"
 HOMEPAGE="https://code.google.com/p/include-what-you-use/"
@@ -18,6 +18,10 @@ RDEPEND="=sys-devel/llvm-3.3*"
 DEPEND="${RDEPEND}"
 
 S=${WORKDIR}/${PN}
+
+src_prepare() {
+	epatch "${FILESDIR}"/${P}-issue-110-elaboration.patch
+}
 
 src_configure() {
 	append-ldflags -L$(llvm-config --libdir)
