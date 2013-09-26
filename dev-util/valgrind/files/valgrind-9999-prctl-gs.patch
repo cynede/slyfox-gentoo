@@ -1,0 +1,57 @@
+Allows wine64 to start in valgrind! Apply with -Np0. :D
+
+Yes I know that %gs is still zero on linux amd64. Details details..
+
+Signed-off-by: Maarten Lankhorst <[hidden email]>
+
+---
+
+FWIW, wine64 is still failing, it's unable to decode some instructions in the save_context (and presumable set_cpu_context) functions.
+
+Specifically some calls from RtlCaptureContext:
+
+    7bc869c0:   8c 49 38                mov    %cs,0x38(%rcx)
+    7bc869c3:   8c 59 3a                mov    %ds,0x3a(%rcx)
+    7bc869c6:   8c 41 3c                mov    %es,0x3c(%rcx)
+    7bc869c9:   8c 61 3e                mov    %fs,0x3e(%rcx)
+    7bc869cc:   8c 69 40                mov    %gs,0x40(%rcx)
+    7bc869cf:   8c 51 42                mov    %ss,0x42(%rcx)
+
+afaict, it should be fair to assume that fs and gs will always be 0 here. It looks like ds, es and ss will not be restored directly,
+instead the set_cpu_context wine call uses iretq to restore the cpu context. valgrind's instruction decoder probably will not work with that either.
+Would someone be willing to look at this?
+
+Index: coregrind/m_translate.c
+===================================================================
+--- coregrind/m_translate.c (revision 13279)
++++ coregrind/m_translate.c (working copy)
+@@ -1486,7 +1486,7 @@
+ #  if defined(VGP_amd64_linux)
+    vex_abiinfo.guest_amd64_assume_fs_is_zero  = True;
+ #  endif
+-#  if defined(VGP_amd64_darwin)
++#  if defined(VGP_amd64_darwin) || defined(VGP_amd64_linux)
+    vex_abiinfo.guest_amd64_assume_gs_is_0x60  = True;
+ #  endif
+ #  if defined(VGP_ppc32_linux)
+Index: coregrind/m_syswrap/syswrap-amd64-linux.c
+===================================================================
+--- coregrind/m_syswrap/syswrap-amd64-linux.c (revision 13279)
++++ coregrind/m_syswrap/syswrap-amd64-linux.c (working copy)
+@@ -564,6 +564,16 @@
+       *(unsigned long *)ARG2 = tst->arch.vex.guest_FS_ZERO;
+       POST_MEM_WRITE(ARG2, sizeof(unsigned long));
+    }
++   else if (ARG1 == VKI_ARCH_SET_GS) {
++      tst = VG_(get_ThreadState)(tid);
++      tst->arch.vex.guest_GS_0x60 = ARG2;
++   }
++   else if (ARG1 == VKI_ARCH_GET_GS) {
++      PRE_MEM_WRITE("arch_prctl(addr)", ARG2, sizeof(unsigned long));
++      tst = VG_(get_ThreadState)(tid);
++      *(unsigned long *)ARG2 = tst->arch.vex.guest_GS_0x60;
++      POST_MEM_WRITE(ARG2, sizeof(unsigned long));
++   }
+    else {
+       VG_(core_panic)("Unsupported arch_prtctl option");
+    }
