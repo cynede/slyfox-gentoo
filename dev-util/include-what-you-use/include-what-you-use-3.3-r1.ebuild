@@ -21,6 +21,7 @@ S=${WORKDIR}/${PN}
 
 src_prepare() {
 	epatch "${FILESDIR}"/${P}-issue-110-elaboration.patch
+	epatch_user
 }
 
 src_configure() {
