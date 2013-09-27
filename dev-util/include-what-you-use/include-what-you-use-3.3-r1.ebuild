@@ -32,8 +32,3 @@ src_configure() {
 	)
 	cmake-utils_src_configure
 }
-
-pkg_postinst() {
-	einfo "It's a bit fun to use"
-	einfo "Please, look at https://code.google.com/p/include-what-you-use/wiki/InstructionsForUsers"
-}
