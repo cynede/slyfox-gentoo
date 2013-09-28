@@ -440,13 +440,9 @@ src_install() {
 	insinto "/etc/qemu"
 	doins "${FILESDIR}/bridge.conf"
 
-	# Remove the docdir placed qmp-commands.txt
-	mv "${ED}/usr/share/doc/${PF}/html/qmp-commands.txt" "${S}/QMP/"
-
 	cd "${S}"
-	dodoc Changelog MAINTAINERS docs/specs/pci-ids.txt
 	newdoc pc-bios/README README.pc-bios
-	dodoc QMP/qmp-commands.txt QMP/qmp-events.txt QMP/qmp-spec.txt
+	dodoc -r docs/
 
 	qemu_support_kvm && readme.gentoo_create_doc
 }
