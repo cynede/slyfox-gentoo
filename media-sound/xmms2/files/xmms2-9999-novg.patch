@@ -1,0 +1,13 @@
+diff --git a/tests/wscript b/tests/wscript
+index 1b87e69..e4c3dfb 100644
+--- a/tests/wscript
++++ b/tests/wscript
+@@ -69,7 +69,7 @@ def build(bld):
+         source = ['runner/memory_status.c'],
+         includes = 'utils',
+         uselib = 'valgrind DISABLE_UNUSEDBUTSETVARIABLE',
+-        defines = ["HAVE_VALGRIND=%d" % int(bld.env.HAVE_VALGRIND)],
++        defines = ["HAVE_VALGRIND=%d" % int(bld.env.HAVE_VALGRIND or 0)],
+         install_path = None,
+     )
+ 
