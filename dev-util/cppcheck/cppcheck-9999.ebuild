@@ -6,7 +6,7 @@ EAPI=5
 
 PYTHON_COMPAT=( python{2_6,2_7,3_2,3_3} )
 
-inherit distutils-r1 eutils qt4-r2 toolchain-funcs git-r3
+inherit distutils-r1 eutils qt4-r2 toolchain-funcs flag-o-matic git-r3
 
 DESCRIPTION="static analyzer of C/C++ code"
 HOMEPAGE="http://cppcheck.sourceforge.net"
@@ -23,6 +23,7 @@ DEPEND="htmlreport? ( ${PYTHON_DEPS} )
 RDEPEND="${DEPEND}"
 
 src_configure() {
+	append-cxxflags -std=c++0x
 	tc-export CXX
 	if use qt4 ; then
 		pushd gui
@@ -33,8 +34,7 @@ src_configure() {
 
 src_compile() {
 	emake CFLAGS="${CFLAGS}" \
-		CFGDIR="/usr/share/${PN}/cfg" \
-		TINYXML="-ltinyxml2"
+		CFGDIR="/usr/share/${PN}/cfg"
 	if use qt4 ; then
 		pushd gui
 		qt4-r2_src_compile
@@ -48,11 +48,11 @@ src_compile() {
 }
 
 src_test() {
-	emake TINYXML="-ltinyxml2" check
+	emake check
 }
 
 src_install() {
-	emake install DESTDIR="${D}" TINYXML="-ltinyxml2"
+	emake install DESTDIR="${D}"
 	dodoc readme.txt
 	insinto "/usr/share/${PN}/cfg"
 	doins cfg/*.cfg
