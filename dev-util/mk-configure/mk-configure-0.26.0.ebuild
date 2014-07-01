@@ -16,6 +16,11 @@ KEYWORDS="~amd64 ~x86"
 
 RESTRICT=test # assumes DESTDIR=/ and PREFIX=/usr/local
 
+RDEPEND="sys-devel/bmake
+	x11-misc/makedepend
+"
+DEPEND="${RDEPEND}"
+
 src_install() {
 	bmake_run_tool DESTDIR="${D}" install
 }
