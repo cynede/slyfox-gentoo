@@ -112,7 +112,6 @@ src_prepare() {
 	epatch "${FILESDIR}/${PN}"-0.8DrO_o-waflib-fix-perl.patch
 	cd "${S}"
 	epatch "${FILESDIR}"/${P}-novg.patch
-	epatch "${FILESDIR}"/${P}-s4-novg.patch
 	epatch_user
 }
 

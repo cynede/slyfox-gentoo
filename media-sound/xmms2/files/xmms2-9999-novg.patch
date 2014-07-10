@@ -6,8 +6,8 @@ index 1b87e69..e4c3dfb 100644
          source = ['runner/memory_status.c'],
          includes = 'utils',
          uselib = 'valgrind DISABLE_UNUSEDBUTSETVARIABLE',
--        defines = ["HAVE_VALGRIND=%d" % int(bld.env.HAVE_VALGRIND)],
-+        defines = ["HAVE_VALGRIND=%d" % int(bld.env.HAVE_VALGRIND or 0)],
+-        defines = ["HAVE_VALGRIND=%d" % int(bld.env.have_valgrind)],
++        defines = ["HAVE_VALGRIND=%d" % int(bld.env.have_valgrind or 0)],
          install_path = None,
      )
  
