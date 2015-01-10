@@ -43,8 +43,9 @@ src_prepare() {
 	### # with more than just a major and minor number.
 	### epatch "${FILESDIR}/valgrind-3.4.1-glibc-2.10.1.patch"
 
-	# for wine64 gs override hack
-	epatch "${FILESDIR}/valgrind-9999-prctl-gs.patch"
+	# needs porting unless already upstream
+	## for wine64 gs override hack
+	#epatch "${FILESDIR}/valgrind-9999-prctl-gs.patch"
 
 	epatch_user
 
