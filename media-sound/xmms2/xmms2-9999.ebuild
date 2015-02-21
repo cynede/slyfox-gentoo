@@ -6,7 +6,7 @@ EAPI=5
 
 inherit eutils git-2 multiprocessing python toolchain-funcs
 
-DESCRIPTION="X(cross)platform Music Multiplexing System. The new generation of the XMMS player."
+DESCRIPTION="X(cross)platform Music Multiplexing System. The new generation of the XMMS player"
 HOMEPAGE="http://xmms2.org/wiki/Main_Page"
 #SRC_URI="mirror://sourceforge/${PN}/${MY_P}.tar.bz2"
 LICENSE="GPL-2 LGPL-2.1"
@@ -31,7 +31,7 @@ RDEPEND="server? (
 		alsa? ( media-libs/alsa-lib )
 		ao? ( media-libs/libao )
 		avahi? ( net-dns/avahi[mdnsresponder-compat] )
-		cdda? ( dev-libs/libcdio
+		cdda? ( dev-libs/libcdio-paranoia
 			>=media-libs/libdiscid-0.1.1
 			>=media-sound/cdparanoia-3.9.8 )
 		curl? ( >=net-misc/curl-7.15.1 )
@@ -46,7 +46,7 @@ RDEPEND="server? (
 		mms? ( virtual/ffmpeg
 			>=media-libs/libmms-0.3 )
 		modplug? ( media-libs/libmodplug )
-		mad? ( media-sound/madplay )
+		mad? ( media-libs/libmad )
 		mp3? ( >=media-sound/mpg123-1.5.1 )
 		musepack? ( media-sound/musepack-tools )
 		ofa? ( media-libs/libofa )
@@ -75,7 +75,7 @@ DEPEND="${RDEPEND}
 	dev-lang/python
 	python? ( dev-python/pyrex )
 	perl? ( virtual/perl-Module-Build )
-	dev-util/pkgconfig
+	virtual/pkgconfig
 	test? ( dev-util/cunit )
 	"
 
@@ -244,14 +244,14 @@ src_compile() {
 
 src_install() {
 	./waf --without-ldconfig --destdir="${D}" install || die "'waf install' failed"
-	dodoc AUTHORS TODO README
+	dodoc AUTHORS TODO
 
 	use python && python_need_rebuild
 }
 
 pkg_postinst() {
 	elog "This version is built on experimental development code"
-	elog "If you encounter any errors report them at http://bugs.xmms2.xmms.se"
+	elog "If you encounter any errors report them at http://bugs.xmms2.org"
 	elog "and visit #xmms2 at irc://irc.freenode.net"
 	if use phonehome ; then
 		einfo ""
