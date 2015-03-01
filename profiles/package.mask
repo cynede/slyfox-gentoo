@@ -1,9 +1,3 @@
 # Sergei Trofimovich <slyfox@gentoo.org> (16 Sep 2013)
 # does not link to current llvm w/o gross hacks
 =dev-util/include-what-you-use-9999
-
-# Sergei Trofimovich <slyfox@gentoo.org> (24 Feb 2013)
-# Masked as upstream URIs are not accessible for
-# quite a while.
-=net-libs/libtorrent-9999
-=net-p2p/rtorrent-9999
