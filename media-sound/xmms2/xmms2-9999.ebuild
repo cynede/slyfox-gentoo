@@ -4,7 +4,9 @@
 
 EAPI=5
 
-inherit eutils git-2 multiprocessing python toolchain-funcs
+USE_RUBY="ruby19 ruby20 ruby21 ruby22"
+
+inherit eutils git-2 multiprocessing python ruby-single toolchain-funcs
 
 DESCRIPTION="X(cross)platform Music Multiplexing System. The new generation of the XMMS player"
 HOMEPAGE="http://xmms2.org/wiki/Main_Page"
@@ -27,7 +29,7 @@ RDEPEND="server? (
 		>=dev-db/sqlite-3.3.4
 
 		aac? ( >=media-libs/faad2-2.0 )
-		airplay? ( dev-libs/openssl )
+		airplay? ( dev-libs/openssl:0= )
 		alsa? ( media-libs/alsa-lib )
 		ao? ( media-libs/libao )
 		avahi? ( net-dns/avahi[mdnsresponder-compat] )
@@ -58,7 +60,7 @@ RDEPEND="server? (
 		speex? ( media-libs/speex
 			media-libs/libogg )
 		vorbis? ( media-libs/libvorbis )
-		vocoder? ( sci-libs/fftw media-libs/libsamplerate )
+		vocoder? ( sci-libs/fftw:0= media-libs/libsamplerate )
 		wavpack? ( media-sound/wavpack )
 		xml? ( dev-libs/libxml2 )
 	)
@@ -69,7 +71,8 @@ RDEPEND="server? (
 	python? ( dev-lang/python
 		>=dev-python/cython-0.15.1
 	)
-	ruby? ( >=dev-lang/ruby-1.8.5 ) "
+	ruby? ( ${RUBY_DEPS} )
+"
 
 DEPEND="${RDEPEND}
 	dev-lang/python
