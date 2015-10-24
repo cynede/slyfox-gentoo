@@ -6,7 +6,7 @@ EAPI=5
 
 USE_RUBY="ruby19 ruby20 ruby21 ruby22"
 
-inherit eutils git-2 multiprocessing python ruby-single toolchain-funcs
+inherit eutils git-r3 multiprocessing python ruby-single toolchain-funcs
 
 DESCRIPTION="X(cross)platform Music Multiplexing System. The new generation of the XMMS player"
 HOMEPAGE="http://xmms2.org/wiki/Main_Page"
@@ -14,8 +14,6 @@ HOMEPAGE="http://xmms2.org/wiki/Main_Page"
 LICENSE="GPL-2 LGPL-2.1"
 
 EGIT_REPO_URI="git://git.xmms2.org/xmms2/xmms2-devel"
-EGIT_PROJECT=xmms2-devel
-EGIT_HAS_SUBMODULES=yeah
 
 SLOT="0"
 KEYWORDS=""
