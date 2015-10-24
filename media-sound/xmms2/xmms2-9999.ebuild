@@ -80,8 +80,6 @@ DEPEND="${RDEPEND}
 	test? ( dev-util/cunit )
 	"
 
-S=${WORKDIR}/xmms2-devel
-
 # use_enable() is taken as proto
 # $1 - useflag
 # $2 - xmms2 option/plugin name (equals to $1 if not set)
@@ -108,10 +106,8 @@ pkg_setup() {
 }
 
 src_prepare() {
-	./waf # inflate waf
-	cd .waf* || die
-	epatch "${FILESDIR}/${PN}"-0.8DrO_o-waflib-fix-perl.patch
-	cd "${S}"
+	git submodule update --init # why do I need it?
+
 	epatch "${FILESDIR}"/${P}-novg.patch
 	epatch_user
 }
