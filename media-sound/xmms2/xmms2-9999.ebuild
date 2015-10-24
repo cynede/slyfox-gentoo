@@ -109,6 +109,7 @@ src_prepare() {
 	git submodule update --init # why do I need it?
 
 	epatch "${FILESDIR}"/${P}-novg.patch
+	epatch "${FILESDIR}"/${P}-cpython.patch
 	epatch_user
 }
 
