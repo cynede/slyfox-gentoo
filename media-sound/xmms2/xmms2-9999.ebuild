@@ -4,9 +4,10 @@
 
 EAPI=5
 
+PYTHON_COMPAT=( python{2_7,3_3,3_4,3_5} )
 USE_RUBY="ruby20 ruby21 ruby22"
 
-inherit eutils git-r3 multiprocessing python ruby-single toolchain-funcs
+inherit eutils git-r3 multiprocessing python-any-r1 ruby-single toolchain-funcs
 
 DESCRIPTION="X(cross)platform Music Multiplexing System. Next generation of the XMMS player"
 HOMEPAGE="http://xmms2.org/wiki/Main_Page"
@@ -66,9 +67,7 @@ RDEPEND="server? (
 	>=dev-libs/glib-2.12.9
 	cxx? ( >=dev-libs/boost-1.32 )
 	perl? ( >=dev-lang/perl-5.8.8 )
-	python? ( dev-lang/python
-		>=dev-python/cython-0.15.1
-	)
+	python? ( ${PYTHON_DEPS} )
 	ruby? ( ${RUBY_DEPS} )
 "
 
@@ -77,7 +76,8 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig
 	perl? ( dev-perl/Module-Build
 		virtual/perl-Module-Metadata )
-	python? ( dev-python/pyrex )
+	python? ( >=dev-python/cython-0.15.1
+		dev-python/pyrex )
 	test? ( dev-util/cunit )
 "
 
@@ -100,10 +100,6 @@ xmms2_flag() {
 			use $1 && echo ",${UWORD}"
 			;;
 	esac
-}
-
-pkg_setup() {
-	python_pkg_setup
 }
 
 src_prepare() {
