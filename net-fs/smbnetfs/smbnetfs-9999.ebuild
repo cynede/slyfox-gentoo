@@ -17,7 +17,7 @@ KEYWORDS=""
 IUSE="gnome"
 
 RDEPEND=">=sys-fs/fuse-2.3
-	>=net-fs/samba-3.2[smbclient]
+	>=net-fs/samba-3.2[smbclient(+)]
 	gnome? ( gnome-base/gnome-keyring )"
 
 DEPEND="${RDEPEND}
