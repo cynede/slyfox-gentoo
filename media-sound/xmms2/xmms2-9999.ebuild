@@ -8,7 +8,7 @@ USE_RUBY="ruby20 ruby21 ruby22"
 
 inherit eutils git-r3 multiprocessing python ruby-single toolchain-funcs
 
-DESCRIPTION="X(cross)platform Music Multiplexing System. The new generation of the XMMS player"
+DESCRIPTION="X(cross)platform Music Multiplexing System. Next generation of the XMMS player"
 HOMEPAGE="http://xmms2.org/wiki/Main_Page"
 #SRC_URI="mirror://sourceforge/${PN}/${MY_P}.tar.bz2"
 LICENSE="GPL-2 LGPL-2.1"
