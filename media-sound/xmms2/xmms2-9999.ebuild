@@ -65,8 +65,7 @@ RDEPEND="server? (
 
 	>=dev-libs/glib-2.12.9
 	cxx? ( >=dev-libs/boost-1.32 )
-	perl? ( dev-perl/Module-Build
-		virtual/perl-Module-Metadata )
+	perl? ( >=dev-lang/perl-5.8.8 )
 	python? ( dev-lang/python
 		>=dev-python/cython-0.15.1
 	)
@@ -75,11 +74,12 @@ RDEPEND="server? (
 
 DEPEND="${RDEPEND}
 	dev-lang/python
-	python? ( dev-python/pyrex )
-	perl? ( virtual/perl-Module-Build )
 	virtual/pkgconfig
+	perl? ( dev-perl/Module-Build
+		virtual/perl-Module-Metadata )
+	python? ( dev-python/pyrex )
 	test? ( dev-util/cunit )
-	"
+"
 
 # use_enable() is taken as proto
 # $1 - useflag
