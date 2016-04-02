@@ -58,7 +58,7 @@ RDEPEND="server? (
 		speex? ( media-libs/speex
 			media-libs/libogg )
 		vorbis? ( media-libs/libvorbis )
-		vocoder? ( sci-libs/fftw:3= media-libs/libsamplerate )
+		vocoder? ( sci-libs/fftw:3.0= media-libs/libsamplerate )
 		wavpack? ( media-sound/wavpack )
 		xml? ( dev-libs/libxml2 )
 	)
