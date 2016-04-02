@@ -239,8 +239,6 @@ src_compile() {
 src_install() {
 	./waf --without-ldconfig --destdir="${D}" install || die "'waf install' failed"
 	dodoc AUTHORS TODO
-
-	use python && python_need_rebuild
 }
 
 pkg_postinst() {
@@ -254,10 +252,4 @@ pkg_postinst() {
 		einfo "developers which may help finding bugs"
 		einfo "Disable the phonehome useflag if you don't like that"
 	fi
-
-	use python && python_mod_optimize xmmsclient
-}
-
-pkg_postrm() {
-	use python && python_mod_cleanup xmmsclient
 }
