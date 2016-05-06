@@ -48,6 +48,6 @@ src_install() {
 
 	local f
 	for f in "${ED}"/usr/bin/* "${ED}/usr/$(get_libdir)"/exe/*; do
-		fperms 755 ${f#$D}
+		fperms 755 "${f#$D}"
 	done
 }
