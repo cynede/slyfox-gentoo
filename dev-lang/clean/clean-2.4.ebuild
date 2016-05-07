@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI=5
+EAPI=6
 
 inherit multilib versionator
 
@@ -23,16 +23,14 @@ KEYWORDS="~x86 ~amd64"
 DEPEND=""
 RDEPEND=""
 
-#RESTRICT="test"
+PATCHES=("${FILESDIR}"/${P}-jobserver.patch)
+
+QA_PREBUILT="*"
 
 S=${WORKDIR}/${PN}
 
-src_configure() {
-	:
-}
-
 src_compile() {
-	:
+	: # default 'make' breaks paths
 }
 
 src_install() {
