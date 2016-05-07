@@ -25,6 +25,8 @@ RDEPEND=""
 
 PATCHES=("${FILESDIR}"/${P}-jobserver.patch)
 
+RESTRICT="strip splitdebug"
+
 QA_PREBUILT="*"
 
 S=${WORKDIR}/${PN}
