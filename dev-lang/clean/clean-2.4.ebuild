@@ -34,7 +34,8 @@ src_compile() {
 }
 
 src_install() {
-	emake install \
+	# fails at parallel building
+	emake -j1 install \
 		INSTALL_DIR="${ED}/usr" \
 		INSTALL_MAN_DIR="${ED}/usr/share/man" \
 		INSTALL_LIB_DIR="${ED}/usr/$(get_libdir)"
