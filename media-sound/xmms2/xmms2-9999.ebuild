@@ -7,7 +7,7 @@ EAPI=5
 PYTHON_COMPAT=( python{2_7,3_3,3_4,3_5} )
 USE_RUBY="ruby20 ruby21 ruby22"
 
-inherit eutils git-r3 multiprocessing python-any-r1 ruby-single toolchain-funcs
+inherit eutils git-r3 multiprocessing python-single-r1 ruby-single toolchain-funcs
 
 DESCRIPTION="X(cross)platform Music Multiplexing System. Next generation of the XMMS player"
 HOMEPAGE="http://xmms2.org/wiki/Main_Page"
@@ -80,6 +80,13 @@ DEPEND="${RDEPEND}
 		dev-python/pyrex )
 	test? ( dev-util/cunit )
 "
+
+pkg_setup() {
+	# used both for building xmms2 and
+	# optionally linking client library
+	# against python
+	python-single-r1_pkg_setup
+}
 
 # use_enable() is taken as proto
 # $1 - useflag
