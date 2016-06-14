@@ -81,6 +81,8 @@ DEPEND="${RDEPEND}
 	test? ( dev-util/cunit )
 "
 
+REQUIRED_USE="${PYTHON_REQUIRED_USE}"
+
 pkg_setup() {
 	# used both for building xmms2 and
 	# optionally linking client library
