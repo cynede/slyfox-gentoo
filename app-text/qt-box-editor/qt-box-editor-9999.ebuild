@@ -27,3 +27,8 @@ DEPEND="${RDEPEND}"
 src_configure() {
 	eqmake5
 }
+
+src_install() {
+	default # does not do anything, needs a .pro fix
+	dobin qt-box-editor-*
+}
