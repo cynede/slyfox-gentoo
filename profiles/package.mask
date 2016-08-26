@@ -1,3 +1,0 @@
-# Sergei Trofimovich <slyfox@gentoo.org> (16 Sep 2013)
-# does not link to current llvm w/o gross hacks
-=dev-util/include-what-you-use-9999
