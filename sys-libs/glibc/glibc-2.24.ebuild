@@ -27,7 +27,7 @@ case ${PV} in
 	;;
 esac
 GCC_BOOTSTRAP_VER="4.7.3-r1"
-#PATCH_VER="4"                                  # Gentoo patchset
+PATCH_VER="0" # a 2.23-patches-4 copy          # Gentoo patchset
 : ${NPTL_KERN_VER:="2.6.32"}                   # min kernel version nptl requires
 
 IUSE="audit caps debug gd hardened multilib nscd +rpc selinux systemtap profile suid vanilla crosscompile_opts_headers-only"
@@ -100,7 +100,7 @@ upstream_uris() {
 	echo mirror://gnu/glibc/$1 ftp://sourceware.org/pub/glibc/{releases,snapshots}/$1 mirror://gentoo/$1
 }
 gentoo_uris() {
-	local devspace="HTTP~vapier/dist/URI HTTP~azarah/glibc/URI"
+	local devspace="HTTP~slyfox/patches/URI HTTP~vapier/dist/URI HTTP~azarah/glibc/URI"
 	devspace=${devspace//HTTP/https://dev.gentoo.org/}
 	echo mirror://gentoo/$1 ${devspace//URI/$1}
 }
@@ -167,6 +167,24 @@ eblit-src_unpack-pre() {
 	GLIBC_PATCH_EXCLUDE+=" 00_all_0002-workaround-crash-when-handling-signals-in-static-PIE.patch"
 	GLIBC_PATCH_EXCLUDE+=" 00_all_0012-disable-PIE-when-checking-for-PIC-default.patch"
 	GLIBC_PATCH_EXCLUDE+=" 00_all_0009-sys-types.h-drop-sys-sysmacros.h-include.patch"
+
+	# drop 2.23 patches that don't apply on 2.24
+	GLIBC_PATCH_EXCLUDE+=" 00_all_0001-Updated-translations-for-2.23.patch"
+	GLIBC_PATCH_EXCLUDE+=" 00_all_0002-Regenerate-libc.pot-for-2.23.patch"
+	GLIBC_PATCH_EXCLUDE+=" 00_all_0003-Regenerated-configure-scripts.patch"
+	GLIBC_PATCH_EXCLUDE+=" 00_all_0006-nptl-support-thread-stacks-that-grow-up.patch"
+	GLIBC_PATCH_EXCLUDE+=" 00_all_0010-x86_64-Set-DL_RUNTIME_UNALIGNED_VEC_SIZE-to-8.patch"
+	GLIBC_PATCH_EXCLUDE+=" 00_all_0011-Don-t-use-long-double-math-functions-if-NO_LONG_DOUB.patch"
+	GLIBC_PATCH_EXCLUDE+=" 00_all_0012-sln-use-stat64.patch"
+	GLIBC_PATCH_EXCLUDE+=" 00_all_0014-mips-terminate-the-FDE-before-the-return-trampoline-.patch"
+	GLIBC_PATCH_EXCLUDE+=" 00_all_0015-Use-HAS_ARCH_FEATURE-with-Fast_Rep_String.patch"
+	GLIBC_PATCH_EXCLUDE+=" 00_all_0016-Define-_HAVE_STRING_ARCH_mempcpy-to-1-for-x86.patch"
+	GLIBC_PATCH_EXCLUDE+=" 00_all_0017-Or-bit_Prefer_MAP_32BIT_EXEC-in-EXTRA_LD_ENVVARS.patch"
+	GLIBC_PATCH_EXCLUDE+=" 00_all_0018-Fix-resource-leak-in-resolver-bug-19257.patch"
+	GLIBC_PATCH_EXCLUDE+=" 00_all_0019-resolv-Always-set-resplen2-out-parameter-in-send_dg-.patch"
+	GLIBC_PATCH_EXCLUDE+=" 00_all_0020-S390-Save-and-restore-fprs-vrs-while-resolving-symbo.patch"
+	GLIBC_PATCH_EXCLUDE+=" 00_all_0021-S390-Extend-structs-La_s390_regs-La_s390_retval-with.patch"
+	GLIBC_PATCH_EXCLUDE+=" 00_all_0022-CVE-2016-3075-Stack-overflow-in-_nss_dns_getnetbynam.patch"
 }
 
 eblit-src_prepare-post() {
