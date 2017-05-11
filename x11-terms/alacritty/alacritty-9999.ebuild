@@ -149,7 +149,7 @@ xml-rs-0.3.5
 yaml-rust-0.3.5
 "
 
-inherit cargo git-r3
+inherit eutils cargo git-r3
 
 DESCRIPTION="GPU-accelerated terminal emulator"
 HOMEPAGE="https://github.com/jwilm/alacritty"
@@ -181,4 +181,9 @@ DEPEND="${RDEPEND}
 src_unpack() {
 	git-r3_src_unpack
 	cargo_src_unpack
+}
+
+src_install() {
+	cargo_src_install
+	make_desktop_entry ${PN} Alacritty
 }
